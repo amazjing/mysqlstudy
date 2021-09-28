@@ -204,31 +204,176 @@ DROP TABLE 表名;
 
 # 3. MYSQL数据管理
 
+**注意：**
+
+**==编写SQL语句时，表名和字段名使用``（ESC下面的键），值和列的备注使用''==**
+
 ## 3.1 外键
 
 **==删除有外键关系的表的时候，必须要先删除引用别人的表（从表），再删除被引用的表（主表）==**
+
+> 方式一：在创建表的时候，增加约束（麻烦，比较复杂）
+
+> ```sql
+> CREATE TABLE `grade`(
+> `gradeid` INT(10) NOT NULL AUTO_INCREMENT COMMENT '年级id',
+> `gradename` VARCHAR(50) NOT NULL COMMENT '年级名称',
+> PRIMARY KEY (`gradeid`)
+> )ENGINE=INNODB DEFAULT CHARSET=utf8
+> 
+> 
+> -- 学生表的gradeid字段，要去引用年纪表的gradeid
+> -- 定义外键KEY
+> -- 给这个外键添加约束（执行引用）
+> CREATE TABLE IF NOT EXISTS `student`(
+> `id` INT(10) NOT NULL AUTO_INCREMENT COMMENT '学号',
+> `name` VARCHAR(50) NOT NULL DEFAULT '匿名' COMMENT '姓名',
+> `pwd` VARCHAR(20) NOT NULL DEFAULT '123456' COMMENT '密码',
+> `sex` VARCHAR(2) NOT NULL DEFAULT '女' COMMENT '性别',
+> `birthday` DATETIME DEFAULT NULL COMMENT '出生日期',
+> `gradeid` INT(10) NOT NULL COMMENT '学生的年级',
+> `address` VARCHAR(100) DEFAULT NULL COMMENT '家庭住址',
+> `email` VARCHAR(50) DEFAULT NULL COMMENT '邮箱',
+> PRIMARY KEY (`id`),
+> KEY `KF_gradeid` (`gradeid`),
+> CONSTRAINT `KF_gradeid` FOREIGN KEY (`gradeid`) REFERENCES `grade` (`gradeid`)
+> )ENGINE=INNODB DEFAULT CHARSET=utf8
+> ```
+
+>
+>
+>方式二：创建表成功后，添加外键约束
+
+```sql
+CREATE TABLE `grade`(
+`gradeid` INT(10) NOT NULL AUTO_INCREMENT COMMENT '年级id',
+`gradename` VARCHAR(50) NOT NULL COMMENT '年级名称',
+PRIMARY KEY (`gradeid`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8
+
+
+-- 学生表的gradeid字段，要去引用年纪表的gradeid
+-- 定义外键KEY
+-- 给这个外键添加约束（执行引用）
+CREATE TABLE IF NOT EXISTS `student`(
+`id` INT(10) NOT NULL AUTO_INCREMENT COMMENT '学号',
+`name` VARCHAR(50) NOT NULL DEFAULT '匿名' COMMENT '姓名',
+`pwd` VARCHAR(20) NOT NULL DEFAULT '123456' COMMENT '密码',
+`sex` VARCHAR(2) NOT NULL DEFAULT '女' COMMENT '性别',
+`birthday` DATETIME DEFAULT NULL COMMENT '出生日期',
+`gradeid` INT(10) NOT NULL COMMENT '学生的年级',
+`address` VARCHAR(100) DEFAULT NULL COMMENT '家庭住址',
+`email` VARCHAR(50) DEFAULT NULL COMMENT '邮箱',
+PRIMARY KEY (`id`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8
+
+-- 创建表的时候没有外键关系
+ALTER TABLE `student`
+ADD CONSTRAINT `KF_gradeid` FOREIGN KEY(`gradeid`) REFERENCES `grade`(`gradeid`);
+
+-- ALTER TABLE 表名 ADD CONSTRAINT 约束名 FOREIGN KEY (作为外键的列) REFERENCES 那个表的哪个字段
+```
+
+以上的操作都是物理外键，数据库级别的外键，不建议使用！（避免数据库过多造困扰）
+
+**==最佳实践==**
+
+- 数据库就是单纯的表，只用来存数据，只用行（数据）和列（字段）
+- 我们想使用多张表的数据，想使用外键（程序去实现）
 
 
 
 ## 3.2 DML语言
 
+数据库意义：数据存储和数据管理
 
+DML语言：数据操作语言
+
+- Insert
+- update
+- delete
 
 
 
 ## 3.3 添加
 
+> insert
+
+```sql
+-- 插入语句（添加）
+-- insert into 表名('字段名1','字段名2','字段名3','字段名4') VALUES('值1'),('值2'),('值3'),('值4');
+INSERT INTO `grade` (`gradename`)VALUES('大四'); 
+
+-- 由于主键自增我们可以省略（如果不写表的字段，他就会一一匹配）
+INSERT INTO `grade` VALUES('大三');
+
+-- 一般写插入语句，我们一定要数据和字段一一对应
+
+-- 插入两条数据
+INSERT INTO `grade`(`gradename`) 
+VALUES('高三'),('高二');
+
+-- 插入
+INSERT INTO `student`(`name`) 
+VALUES('王五');
+
+-- 插入三个字段的一条数据
+INSERT INTO `student`(`name`,`pwd`,`sex`) 
+VALUES('李四','bbbb','女');
+
+-- 连续插入两条数据
+INSERT INTO `student`(`name`,`pwd`,`sex`) 
+VALUES('王小二','qqqqq','女'),('王小三','wwwwwww','女');
+```
 
 
 
+**注意事项：**
+
+1. 字段和字段之间使用英文逗号隔开
+2. 字段是可以省略的，但是后面的值必须要一一对应，不能少
+3. 可以同时插入多条数据，VALUES后面的值，需要使用`,`隔开。`VALUES(''),('')`
 
 
 
 ## 3.4 修改
 
+> update
 
+```sql
+-- 语法：
+-- UPDATE 表名 set 列名 = value where 条件;
 
+-- 修改学生名字
+UPDATE `student` SET `name` ='狂神' WHERE id =1;
 
+-- 不指定条件的情况下，会修改表中所有数据
+UPDATE `student` SET `name`='三体';
+
+-- 修改多个属性，逗号隔开
+UPDATE `student` SET `name` = '三体人',`email` = '888888@163.com' 
+WHERE id=1;
+
+-- 通过多个条件定位数据
+UPDATE `student` SET `name` = '三体人' 
+WHERE `name` = '三体' AND  `sex`='男';
+```
+
+条件：where子句 运算符 id等于某个值，大于某个值，在某个区间内修改...
+
+操作值会返回布尔值
+
+| 操作符           | 含义                   | 范围        | 结果  |
+| :--------------- | ---------------------- | ----------- | ----- |
+| =                | 等于                   | 5=6         | false |
+| <>或!=           | 不等于                 | 5<>6        | true  |
+| <                | 小于                   | 5<6         | true  |
+| >                | 大于                   | 5>6         | false |
+| <=               | 小于等于               | 5<=6        | true  |
+| >=               | 大于等于               | 5=>6        | false |
+| BETWEEN...and... | 闭合区间，在某个范围内 |             |       |
+| AND              | &&,两个条件都成立      | 5>1 and 1>2 | false |
+| OR               | 或                     | 5>1 and 1>2 | true  |
 
 
 
