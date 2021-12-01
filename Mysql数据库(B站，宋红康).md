@@ -214,4 +214,96 @@ ORM思想 (Object Relational Mapping)体现：
 
 ### 4.1 基本规则
 
-###  
+- SQL 可以写在一行或者多行。为了提高可读性，各子句分行写，必要时使用缩进
+
+- 每条命令以 ; 或 \g 或 \G 结束
+- 关键字不能被缩写也不能分行
+- 关于标点符号
+  - 必须保证所有的()、单引号、双引号是成对结束的
+  - 必须使用英文状态下的半角输入方式
+  - 字符串型和日期时间类型的数据可以使用单引号（' '）表示
+  - 列的别名，尽量使用双引号（" "），而且不建议省略as
+
+### 4.2 SQL大小写规范 （建议遵守）
+
+- **MySQL 在 Windows 环境下是大小写不敏感的**
+- **MySQL 在 Linux 环境下是大小写敏感的**
+  - 数据库名、表名、表的别名、变量名是严格区分大小写的
+  - 关键字、函数名、列名(或字段名)、列的别名(字段的别名) 是忽略大小写的。
+- **推荐采用统一的书写规范：**
+  - 数据库名、表名、表别名、字段名、字段别名等都小写
+  - SQL 关键字、函数名、绑定变量等都大写
+
+### 4.3 注释
+
+可以使用如下格式的注释结构
+
+```mysql
+单行注释：#注释文字(MySQL特有的方式)
+单行注释：-- 注释文字(--后面必须包含一个空格。)
+多行注释：/* 注释文字  */
+```
+
+### 4.4 命名规则
+
+- 数据库、表名不得超过30个字符，变量名限制为29个
+- 必须只能包含 A–Z, a–z, 0–9, _共63个字符
+- 数据库名、表名、字段名等对象名中间不要包含空格
+- 同一个MySQL软件中，数据库不能同名；同一个库中，表不能重名；同一个表中，字段不能重名
+- 必须保证你的字段没有和保留字、数据库系统或常用方法冲突。如果坚持使用，请在SQL语句中使用`（着重号）引起来
+- 保持字段名和类型的一致性，在命名字段并为其指定数据类型的时候一定要保证一致性。假如数据类型在一个表里是整数，那在另一个表里可就别变成字符型了
+
+举例：
+
+```mysql
+#以下两句是一样的，不区分大小写
+show databases;
+SHOW DATABASES;
+
+#创建表格
+#create table student info(...); #表名错误，因为表名有空格
+create table student_info(...); 
+
+#其中order使用``飘号，因为order和系统关键字或系统函数名等预定义标识符重名了
+CREATE TABLE `order`(
+    id INT,
+    lname VARCHAR(20)
+);
+
+select id as "编号", `name` as "姓名" from t_stu; #起别名时，as都可以省略
+select id as 编号, `name` as 姓名 from t_stu; #如果字段别名中没有空格，那么可以省略""
+select id as 编 号, `name` as 姓 名 from t_stu; #错误，如果字段别名中有空格，那么不能省略""
+```
+
+### 4.5 数据导入指令
+
+在命令行客户端登录mysql，使用`source`指令导入
+
+```mysql
+mysql> source d:\mysqldb.sql
+```
+
+```mysql
+mysql> desc employees;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| employee_id    | int(6)      | NO   | PRI | 0       |       |
+| first_name     | varchar(20) | YES  |     | NULL    |       |
+| last_name      | varchar(25) | NO   |     | NULL    |       |
+| email          | varchar(25) | NO   | UNI | NULL    |       |
+| phone_number   | varchar(20) | YES  |     | NULL    |       |
+| hire_date      | date        | NO   |     | NULL    |       |
+| job_id         | varchar(10) | NO   | MUL | NULL    |       |
+| salary         | double(8,2) | YES  |     | NULL    |       |
+| commission_pct | double(2,2) | YES  |     | NULL    |       |
+| manager_id     | int(6)      | YES  | MUL | NULL    |       |
+| department_id  | int(4)      | YES  | MUL | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+11 rows in set (0.00 sec)
+```
+
+
+
+## 5. 基本的SELECT语句
+
