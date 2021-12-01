@@ -337,5 +337,10 @@ SELECT department_id
 FROM   employees;
 ```
 
+**在SELECT语句中使用关键字DISTINCT去除重复行**
 
+```sql
+SELECT DISTINCT department_id
+FROM   employees;
+```
 
