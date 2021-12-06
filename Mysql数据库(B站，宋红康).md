@@ -465,3 +465,39 @@ mysql> desc employees;
 
 
 
+## 6. 过滤数据
+
+- 语法：
+
+  ```mysql
+  SELECT 字段1,字段2
+  FROM 表名
+  WHERE 过滤条件
+  ```
+
+  - 使用WHERE 子句，将不满足条件的行过滤掉
+  - **WHERE子句紧随 FROM子句**
+
+- 举例
+
+  ```mysql
+  SELECT employee_id, last_name, job_id, department_id
+  FROM   employees
+  WHERE  department_id = 90 ;
+  ```
+
+  ![image-20211206142344088](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211206142344088.png)
+
+  
+
+``` mysql
+#练习：查询90号部门的员工信息
+SELECT * FROM employees
+#过滤条件
+WHERE department_id = 90;
+
+#练习：查询last_name为'King'的员工信息
+SELECT * FROM employees WHERE last_name = 'King';
+```
+
+![image-20211206143139077](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211206143139077.png)
