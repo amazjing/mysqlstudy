@@ -1203,6 +1203,90 @@ SELECT 1 << 2, 4 << 2;
 
 **在一定范围内满足：每向左移动1位，相当于乘以2；每向右移动一位，相当于除于2。**
 
+
+
+#### 7.4.7 运算符练习题
+
+```mysql
+# 1.查询工资不在5000到12000的员工的姓名和工资
+SELECT last_name,salary
+FROM employees
+WHERE salary NOT BETWEEN 5000 AND 12000;
+#或
+SELECT last_name,salary
+FROM employees
+WHERE salary < 5000 OR salary > 12000;
+
+# 2.查询在20或50号部门工作的员工姓名和部门号
+SELECT last_name,department_id
+FROM employees
+WHERE department_id IN (20,50);
+#或
+SELECT last_name,department_id
+FROM employees
+WHERE department_id = 20 OR department_id = 50;
+
+#3.查询公司中没有管理者的员工姓名及job_id
+SELECT last_name,job_id,manager_id
+FROM employees
+WHERE  ISNULL(manager_id);
+#或
+SELECT last_name,job_id,manager_id
+FROM employees
+WHERE  manager_id IS NULL;
+
+# 4.查询公司中有奖金的员工姓名，工资和奖金级别
+SELECT last_name,salary,commission_pct
+FROM employees
+WHERE commission_pct IS NOT NULL;
+#或
+SELECT last_name,salary,commission_pct
+FROM employees
+WHERE NOT commission_pct <=> NULL;
+
+# 5.查询员工姓名的第三个字母是a的员工姓名
+SELECT last_name
+FROM employees
+WHERE last_name LIKE "__a%";
+
+# 6.查询姓名中有字母a和k的员工姓名
+SELECT last_name
+FROM employees
+WHERE last_name LIKE '%a%k%' OR last_name LIKE '%k%a%';
+#或
+SELECT last_name
+FROM employees
+WHERE last_name LIKE '%a%' AND last_name LIKE'%K%';
+
+# 7.查询出表 employees 表中 first_name 以 'e'结尾的员工信息
+# 7.查询出表 employees 表中 first_name 以 'e'结尾的员工信息
+SELECT first_name
+FROM employees
+WHERE first_name LIKE '%e';
+#或
+SELECT first_name
+FROM employees
+WHERE first_name REGEXP 'e$';
+
+# 8.查询出表 employees 部门编号在 80-100 之间的姓名、工种
+SELECT last_name,department_id,job_id
+FROM employees
+WHERE department_id BETWEEN 80 AND 100;
+#或
+SELECT last_name,department_id,job_id
+FROM employees
+WHERE department_id >= 80 AND department_id <= 100;
+
+# 9.查询出表 employees 的 manager_id 是 100,101,110 的员工姓名、工资、管理者id
+SELECT manager_id,last_name,salary
+FROM employees
+WHERE manager_id IN (100,101,110);
+```
+
+
+
+
+
 ## 8. 运算符的优先级
 
 
