@@ -649,7 +649,7 @@ WHERE employee_id MOD 2 = 0;
 
 比较运算符经常被用来作为SELECT查询语句的条件来使用，返回符合条件的结果记录。
 
-![image-20211207083052466](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211207083052466.png)
+![image-20211209155956797](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211209155956797.png)
 
 
 
@@ -1408,4 +1408,8 @@ mysql> SELECT * FROM fruits WHERE f_name REGEXP 'x{2,}';
 ```mysql
 mysql> SELECT * FROM fruits WHERE f_name REGEXP 'ba{1,3}';
 ```
+
+
+
+## 10. 排序与分页
 
