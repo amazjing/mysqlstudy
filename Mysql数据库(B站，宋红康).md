@@ -665,13 +665,13 @@ WHERE employee_id MOD 2 = 0;
 
 ```mysql
 #比较运算符
-# 1.	=(等于)
-#		<=>(安全等于)
-#		<>、!=(不等于)
-#		<(小于)
-#		<=(小于等于)
-#		>(大于)
-#		>=(大于等于)
+# 		=		(等于)
+#		<=>		(安全等于)
+#		<>、!=	(不等于)
+#		<		(小于)
+#		<=		(小于等于)
+#		>		(大于)
+#		>=		(大于等于)
 SELECT 1 = 2 , 1 != 2 , 1 = '1', 1 = 'a',0 = 'a'
 FROM DUAL;
 #结果：
@@ -1412,4 +1412,51 @@ mysql> SELECT * FROM fruits WHERE f_name REGEXP 'ba{1,3}';
 
 
 ## 10. 排序与分页
+
+### 10.1 排序数据
+
+#### 10.1.1 排序规则
+
+- 使用 ORDER BY 子句排序
+  - **ASC（ascend）: 升序**
+  - **DESC（descend）:降序**
+- **ORDER BY 子句在SELECT语句的结尾。**
+
+
+
+```mysql
+#1. 排序
+# 如果没有使用排序操作，默认情况下查询返回的数据是按照添加数据的顺序显示的
+SELECT * FROM employees;
+
+#使用ORDER BY 对查询到的数据进行排序操作。
+#升序：ASC（ascend）
+#降序：DESC（descend）
+#练习：按照salary从高到低的顺序显示员工信息
+SELECT employee_id,last_name,salary
+FROM employees
+ORDER BY salary DESC;
+
+#练习：按照salary从低到高的顺序显示员工信息
+#如果在ORDER BY 后没有显示指定的排序方式，则默认按照升序排列。
+SELECT employee_id,last_name,salary
+FROM employees
+ORDER BY salary ASC;
+
+#可以使用列的别名，进行排序
+SELECT employee_id,salary,salary * 12 annual_sal
+FROM employees
+ORDER BY annual_sal;
+
+#列的别名只能在ORDER BY 中使用，不能在WHERE中使用。
+SELECT employee_id,salary,salary * 12 annual_sal
+FROM employees
+WHERE annual_sal > 81600;
+```
+
+
+
+
+
+#### 10.1.2 单列排序
 
