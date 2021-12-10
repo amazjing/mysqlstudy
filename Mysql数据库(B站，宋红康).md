@@ -1515,4 +1515,49 @@ SELECT * FROM 表名 LIMIT 20,10;
 
   约束返回结果的数量可以`减少数据表的网络传输量`，也可以`提升查询效率`。如果我们知道返回结果只有 1 条，就可以使用`LIMIT 1`，告诉 SELECT 语句只需要返回一条记录即可。这样的好处就是 SELECT 不需要扫描完整的表，只需要检索到一条符合条件的记录即可返回。
 
-  
+```mysql
+# 分页
+# mysql使用limit实现数据分页显示
+
+#需求1：每页显示20条记录，此时显示第一页
+SELECT employee_id,last_name
+FROM employees
+LIMIT 0,20;
+
+#需求2：每页显示20条记录，此时显示第二页
+SELECT employee_id,last_name
+FROM employees
+LIMIT 20,20;
+
+#需求3：每页显示20条记录，此时显示第三页
+SELECT employee_id,last_name
+FROM employees
+LIMIT 40,20;
+
+#需求：每页显示pageSize条记录，此时显示第pageNo页
+#公式：LIMIT (pageNo-1) * pageSize , pageSize;
+
+# WHERE ... ORDER BY ... LIMIT 声明顺序如下：
+SELECT employee_id,last_name,salary
+FROM employees
+WHERE salary > 6000
+ORDER BY salary DESC
+LIMIT 0,10;
+
+#练习：表中有107条数据，我们只想要显示第32、33条数据
+SELECT employee_id,last_name
+FROM employees
+LIMIT 31,2;
+
+#MySQL8.0 新特性：LIMIT ... OFFSET ...
+#练习：表中有107条数据，我们只想要显示第32、33条数据
+SELECT employee_id,last_name
+FROM employees
+LIMIT 2 OFFSET 31;
+
+```
+
+
+
+### 10.3 排序与分页练习
+
