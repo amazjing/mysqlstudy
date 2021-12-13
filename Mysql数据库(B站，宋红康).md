@@ -1598,3 +1598,96 @@ WHERE email REGEXP '[e]'
 ORDER BY LENGTH(email) DESC , department_id ASC
 ```
 
+
+
+## 11. 多表查询
+
+多表查询，也称为关联查询，指两个或更多个表一起完成查询操作。
+
+前提条件：这些一起查询的表之间是有关系的（一对一、一对多），它们之间一定是有关联字段，这个关联字段可能建立了外键，也可能没有建立外键。比如：员工表和部门表，这两个表依靠“部门编号”进行关联。
+
+
+
+### 11.1 出现笛卡尔积的错误
+
+```mysql
+#错误的原因：缺少了多表的连接条件
+
+#需求：查询每个员工的部门名称
+
+#错误的实现方式：每个员工都与每个部门匹配了一遍。
+SELECT employee_id,department_name
+FROM employees,departments;		#查询出2889条记录
+#错误的实现方式：
+SELECT employee_id,department_name
+FROM employees CROSS JOIN departments;	#查询出2889条记录
+
+#为什么会出现2889条数据
+
+SELECT * FROM employees;	#结果：107
+
+SELECT * FROM departments;	#结果：27
+#人员与部门相乘就是2889条记录
+
+#多表查询的正确方式：需要有连接条件
+SELECT employee_id,department_name
+FROM employees,departments
+#两个表的连接条件
+WHERE employees.department_id = departments.department_id;
+
+#如果查询语句中出现了多个表中都存在的字段，则必须陟明此字段所在的表。
+
+#建议：从sql优化的角度，建议多表查询时，每个字段都指明其所在的表。
+
+#可以给表起别名，在SELECT和WHERE中使用表的别名。
+#如果给表起了别名，一旦在SELECT或WHERE中使用表名的话，则必须使用表的别名，而不能再使用表的原名。
+SELECT emp.employee_id,dept.department_name,emp.department_id
+FROM employees emp,departments dept
+WHERE emp.department_id = dept.department_id;
+
+#如果有N个表实现多表的查询，则需要至少n-1个连接条件
+#练习：查询员工的employee_id,last_name,department_name,city
+SELECT employee_id,last_name,department_name,city
+FROM employees e,departments d,locations l
+WHERE e.department_id = d.department_id
+AND d.location_id = l.location_id;
+
+```
+
+### 11.2 笛卡尔积（或交叉连接）的理解
+
+笛卡尔乘积是一个数学运算。假设我有两个集合 X 和 Y，那么 X 和 Y 的笛卡尔积就是 X 和 Y 的所有可能组合，也就是第一个对象来自于 X，第二个对象来自于 Y 的所有可能。组合的个数即为两个集合中元素个数的乘积数。
+
+![image-20211213110238932](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211213110238932.png)
+
+### 11.3 案例分析与问题解决
+
+- **笛卡尔积的错误会在下面条件下产生**：
+
+  - 省略多个表的连接条件（或关联条件）
+  - 连接条件（或关联条件）无效
+  - 所有表中的所有行互相连接
+
+- 为了避免笛卡尔积， 可以**在 WHERE 加入有效的连接条件。**
+
+- 加入连接条件后，查询语法：
+
+  ```mysql
+  SELECT	table1.column, table2.column
+  FROM	table1, table2
+  WHERE	table1.column1 = table2.column2;  #连接条件
+  ```
+
+  - 在 WHERE子句中写入连接条件。
+
+- 正确写法：
+
+  ```mysql
+  #案例：查询员工的姓名及其部门名称
+  SELECT last_name, department_name
+  FROM employees, departments
+  WHERE employees.department_id = departments.department_id;
+  ```
+
+- **在表中有相同列时，在列名之前加上表名前缀。**
+
