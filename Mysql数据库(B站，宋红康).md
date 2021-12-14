@@ -1691,3 +1691,24 @@ AND d.location_id = l.location_id;
 
 - **在表中有相同列时，在列名之前加上表名前缀。**
 
+
+
+## 12. 多表查询的分类
+
+- 角度1：等值连接	vs	非等值连接
+- 角度2：自连接	vs	非自连接
+- 角度3：内连接	vs	外连接
+
+
+
+### 12.1 等值连接	vs	非等值连接
+
+```mysql
+#非等值连接的例子
+SELECT * FROM job_grades;
+
+SELECT e.last_name,e.salary,j.grade_level
+FROM employees e,job_grades j
+WHERE e.salary BETWEEN j.lowest_sal AND j.highest_sal;
+```
+
