@@ -1712,3 +1712,47 @@ FROM employees e,job_grades j
 WHERE e.salary BETWEEN j.lowest_sal AND j.highest_sal;
 ```
 
+
+
+### 12.2 自连接 	vs	非自连接
+
+自连接经典的案例就是父级部门和子级之间的关系。例如：一张表，父级部门字段使用的是自增的主键id表示部门id，表示子级部门对应的父级id字段是dept_id。这张表就存在自连接。
+
+    ```mysql
+    #练习： 查询员工id，员工姓名及其管理者的id和姓名
+    SELECT emp.employee_id,emp.last_name,mgr.employee_id,mgr.last_name
+    FROM employees emp , employees mgr
+    WHERE emp.manager_id = mgr.employee_id;
+    ```
+
+
+
+### 12.3 内连接	vs	外连接
+
+**内连接**: 合并具有同一列的两个以上的表的行, **结果集中不包含一个表与另一个表不匹配的行**
+
+```mysql
+#案例：查询员工的姓名及其部门名称
+#结果为106条数据；事实上本来应该有107条数据，有一条数据是where条件不成立的数据。
+SELECT last_name, department_name
+FROM employees e, departments d
+WHERE e.department_id = d.department_id;
+```
+
+
+
+**外连接**: 两个表在连接过程中除了返回满足连接条件的行以外**还返回左（或右）表中不满足条件的行** **，这种连接称为左（或右） 外连接**。没有匹配的行时, 结果表中相应的列为空(NULL)。
+
+**外连接的分类**：
+
+- 左外连接
+- 右外连接
+- 满外连接
+
+```mysql
+#使用JOIN ... ON的方式实现多表的查询;解决外连接问题;
+
+
+
+```
+
