@@ -92,7 +92,7 @@ Mysql是关系型数据库(Relational)，Redis是非关系型数据库(key-value
 
 - 一个实体集（class）对应于数据库中的一个表（table），一个实体（instance）则对应于数据库表中的一行（row），也称为一条记录（record）。一个属性（attribute）对应于数据库表中的一列（column），也称为一个字段（field）。
 
-![image-20210914235450032](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20210914235450032-1634141235163.png)
+![image11](https://gitee.com/Amazjing/markdown-img/raw/master/img/image11.png)
 
 ```
 ORM思想 (Object Relational Mapping)体现：
@@ -127,7 +127,7 @@ ORM思想 (Object Relational Mapping)体现：
 
     
 
-![image-20211201111923065](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211201111923065.png)
+![image-20211201111923](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211201111923.png)
 
 
 
@@ -177,12 +177,12 @@ ORM思想 (Object Relational Mapping)体现：
   - `订单表`：“订单”表中的每条记录表示一个订单。
   - `订单明细表`：每个产品可以与“订单”表中的多条记录对应，即出现在多个订单中。一个订单可以与“产品”表中的多条记录对应，即包含多个产品。
 
-![image-20211201112649337](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211201112649337.png)
+![image-20211201112649](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211201112649.png)
 
 - **举例3：用户-角色**
 - 多对多关系建表原则：需要创建第三张表，中间表中至少两个字段，这两个字段分别作为外键指向各自一方的主键。
 
-![image-20211201112702508](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211201112702508.png)
+![image-202112011127025](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-202112011127025.png)
 
 
 
@@ -533,7 +533,7 @@ WHERE department_id = 90;
 SELECT * FROM employees WHERE last_name = 'King';
 ```
 
-![image-20211206143139077](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211206143139077.png)
+![image-202112061431390](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-202112061431390.png)
 
 
 
@@ -545,7 +545,7 @@ SELECT * FROM employees WHERE last_name = 'King';
 
 算术运算符主要用于数学运算，其可以连接运算符前后的两个数值或表达式，对数值或表达式进行加（+）、减（-）、乘（*）、除（/）和取模（%）运算。
 
-![image-20211206163841787](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211206163841787.png)
+![image-202112061638417](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-202112061638417.png)
 
 
 
@@ -593,9 +593,9 @@ WHERE employee_id % 2 = 0;
 
 
 
-![image-20211206170522408](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211206170522408.png)
+![image-202112061705224](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-202112061705224.png)
 
-![image-20211206170453044](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211206170453044.png)
+![image-202112061704530](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-202112061704530.png)
 
 取模运算：%  mod
 
@@ -649,7 +649,7 @@ WHERE employee_id MOD 2 = 0;
 
 比较运算符经常被用来作为SELECT查询语句的条件来使用，返回符合条件的结果记录。
 
-![image-20211209155956797](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211209155956797.png)
+![image-202112091559567](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-202112091559567.png)
 
 
 
@@ -693,7 +693,9 @@ FROM DUAL;
 
 ```
 
-![image-20211207102600483](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211207102600483.png)![image-20211207102953293](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211207102953293.png)
+![image-2021120710260](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-2021120710260.png)
+
+![image-2021120710295](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-2021120710295.png)
 
 
 
@@ -1922,7 +1924,7 @@ ON e.`department_id` = d.`department_id`;	#结果：123条
 
 ```mysql
 #右下图
-#左中图 + 右中图  A ∪B- A∩B 或者 (A -  A∩B) ∪ （B - A∩B）
+#左中图 UNION ALL 右中图  A ∪B- A∩B 或者 (A -  A∩B) ∪ （B - A∩B）
 SELECT employee_id,last_name,department_name
 FROM employees e 
 LEFT JOIN departments d
@@ -1933,7 +1935,7 @@ SELECT employee_id,last_name,department_name
 FROM employees e 
 RIGHT JOIN departments d
 ON e.`department_id` = d.`department_id`
-WHERE e.`department_id` IS NULL
+WHERE e.`department_id` IS NULL;	#结果17条
 ```
 
 
