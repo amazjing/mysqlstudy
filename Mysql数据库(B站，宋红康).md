@@ -1750,9 +1750,249 @@ WHERE e.department_id = d.department_id;
 - 满外连接
 
 ```mysql
+#SQL92语法实现外连接：使用 + ;MySQL不支持SQL92语法中外连接的写法
+SELECT employee_id, department_name
+FROM employees e, departments d
+WHERE e.department_id = d.department_id(+);
+
 #使用JOIN ... ON的方式实现多表的查询;解决外连接问题;
+#SQL99语法：实现内连接
+SELECT last_name, department_name
+FROM employees e
+INNER JOIN departments d
+ON e.department_id = d.department_id;
+
+#SQL99语法实现外连接;
+
+#练习：查询所有的员工的last_name,department_name信息
+#左外连接：
+SELECT last_name, department_name
+FROM employees e
+LEFT  JOIN departments d
+ON e.department_id = d.department_id;	#107条数据
+
+#右外连接：
+SELECT last_name, department_name
+FROM employees e
+RIGHT JOIN departments d
+ON e.department_id = d.department_id;	#122条数据
+
+#满外连接：MySQL不支持 FULL OUTER JOIN连接方式
+```
 
 
 
+### 12.4 满外连接
+
+- 满外连接的结果 = 左右表匹配的数据 + 左表没有匹配到的数据 + 右表没有匹配到的数据。
+- SQL99语法是支持满外连接的。使用FULL JOIN 或 FULL OUTER JOIN来实现。
+- 需要注意的是，MySQL不支持FULL JOIN，但是可以用 LEFT JOIN **UNION** RIGHT join代替。
+
+
+
+### 12.5 UNION的使用
+
+**合并查询结果**
+利用UNION关键字，可以给出多条SELECT语句，并将它们的结果组合成单个结果集。合并时，两个表对应的列数和数据类型必须相同，并且相互对应。各个SELECT语句之间使用UNION或UNION ALL关键字分隔。
+
+语法格式：
+
+```mysql
+SELECT column,... FROM table1
+UNION [ALL]
+SELECT column,... FROM table2
+```
+
+**UNION操作符**
+
+![image-20211221104813948](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211221104813948.png)
+
+UNION 操作符返回两个查询的结果集的并集，去除重复记录。
+
+**UNION ALL操作符**
+
+![image-20211221104834602](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211221104834602.png)
+
+UNION ALL操作符返回两个查询的结果集的并集。对于两个结果集的重复部分，不去重。
+
+> 注意：执行UNION ALL语句时所需要的资源比UNION语句少。如果明确知道合并数据后的结果数据不存在重复数据，或者不需要去除重复的数据，则尽量使用UNION ALL语句，以提高数据查询的效率。
+
+举例：查询部门编号>90或邮箱包含a的员工信息
+
+```mysql
+#方式1
+SELECT * FROM employees WHERE email LIKE '%a%' OR department_id>90;
+
+#方式2
+SELECT * FROM employees  WHERE email LIKE '%a%'
+UNION
+SELECT * FROM employees  WHERE department_id>90;
+```
+
+举例：查询中国用户中男性的信息以及美国用户中年男性的用户信息
+
+```mysql
+SELECT id,cname FROM t_chinamale WHERE csex='男'
+UNION ALL
+SELECT id,tname FROM t_usmale WHERE tGender='male';
+```
+
+
+
+### 12.6 7种SQL JOINS的实现
+
+![image-20211221105631985](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211221105631985.png)
+
+
+
+#### 12.6.1 代码实现
+
+![image-20211221110402114](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211221110402114.png)
+
+A表：员工表employees；B表：departments部门表
+
+```mysql
+#中图：内连接 A∩B
+SELECT employee_id,last_name,department_name
+FROM employees e 
+JOIN departments d
+ON e.`department_id` = d.`department_id`;	#结果：106条
+```
+
+```mysql
+#左上图：左外连接
+SELECT employee_id,last_name,department_name
+FROM employees e 
+LEFT JOIN departments d
+ON e.`department_id` = d.`department_id`;	#结果：107条
+```
+
+```mysql
+#右上图：右外连接
+SELECT employee_id,last_name,department_name
+FROM employees e 
+RIGHT JOIN departments d
+ON e.`department_id` = d.`department_id`;	#结果：122条
+```
+
+```mysql
+#左中图：A - A∩B
+SELECT employee_id,last_name,department_name
+FROM employees e 
+LEFT JOIN departments d
+ON e.`department_id` = d.`department_id`
+WHERE d.`department_id` IS NULL;	#结果：1条
+```
+
+```mysql
+#右中图：B-A∩B
+SELECT employee_id,last_name,department_name
+FROM employees e 
+RIGHT JOIN departments d
+ON e.`department_id` = d.`department_id`
+WHERE e.`department_id` IS NULL;	#结果：16条
+```
+
+```mysql
+#左下图：满外连接
+#方式1：左上图 UNION ALL 右中图
+SELECT employee_id,department_name
+FROM employees e
+LEFT JOIN departments d
+ON e.department_id = d.department_id
+UNION ALL
+SELECT employee_id,department_name
+FROM employees e
+RIGHT JOIN departments d
+ON e.department_id = d.department_id
+WHERE e.department_id IS NULL;	#结果：123条
+
+#方式1： 左中图 UNION ALL 右上图  A∪B
+SELECT employee_id,last_name,department_name
+FROM employees e 
+LEFT JOIN departments d
+ON e.`department_id` = d.`department_id`
+WHERE d.`department_id` IS NULL
+UNION ALL  #没有去重操作，效率高
+SELECT employee_id,last_name,department_name
+FROM employees e 
+RIGHT JOIN departments d
+ON e.`department_id` = d.`department_id`;	#结果：123条
+```
+
+```mysql
+#右下图
+#左中图 + 右中图  A ∪B- A∩B 或者 (A -  A∩B) ∪ （B - A∩B）
+SELECT employee_id,last_name,department_name
+FROM employees e 
+LEFT JOIN departments d
+ON e.`department_id` = d.`department_id`
+WHERE d.`department_id` IS NULL
+UNION ALL
+SELECT employee_id,last_name,department_name
+FROM employees e 
+RIGHT JOIN departments d
+ON e.`department_id` = d.`department_id`
+WHERE e.`department_id` IS NULL
+```
+
+
+
+#### 12.6.2 语法格式小结
+
+- 左中图
+
+```mysql
+#实现A -  A∩B
+select 字段列表
+from A表 left join B表
+on 关联条件
+where 从表关联字段 is null and 等其他子句;
+```
+
+- 右中图
+
+```mysql
+#实现B -  A∩B
+select 字段列表
+from A表 right join B表
+on 关联条件
+where 从表关联字段 is null and 等其他子句;
+```
+
+- 左下图
+
+```mysql
+#实现查询结果是A∪B
+#用左外的A，union 右外的B
+select 字段列表
+from A表 left join B表
+on 关联条件
+where 等其他子句
+
+union 
+
+select 字段列表
+from A表 right join B表
+on 关联条件
+where 等其他子句;
+```
+
+- 右下图
+
+```mysql
+#实现A∪B -  A∩B  或   (A -  A∩B) ∪ （B - A∩B）
+#使用左外的 (A -  A∩B)  union 右外的（B - A∩B）
+select 字段列表
+from A表 left join B表
+on 关联条件
+where 从表关联字段 is null and 等其他子句
+
+union
+
+select 字段列表
+from A表 right join B表
+on 关联条件
+where 从表关联字段 is null and 等其他子句
 ```
 
