@@ -1,4 +1,4 @@
-# MySQL数据库
+MySQL数据库
 
 > 学习信息
 
@@ -142,7 +142,7 @@ ORM思想 (Object Relational Mapping)体现：
 
 ![image-20210915001013524](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20210915001013524.png)
 
-![image-20210914235610597](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20210914235610597.png)
+![image-202109142356105](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-202109142356105.png)
 
 ![image-20210915084623432](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20210915084623432.png)
 
@@ -177,7 +177,7 @@ ORM思想 (Object Relational Mapping)体现：
   - `订单表`：“订单”表中的每条记录表示一个订单。
   - `订单明细表`：每个产品可以与“订单”表中的多条记录对应，即出现在多个订单中。一个订单可以与“产品”表中的多条记录对应，即包含多个产品。
 
-![image-20211201112649](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211201112649.png)
+![微信截图_20211221155016](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211221155016.png)
 
 - **举例3：用户-角色**
 - 多对多关系建表原则：需要创建第三张表，中间表中至少两个字段，这两个字段分别作为外键指向各自一方的主键。
@@ -601,7 +601,7 @@ WHERE employee_id % 2 = 0;
 
 取模运算的结果与被取模数有关。被取模数是正数，结果为正数，取模数是负数，结果为负数。
 
-![image-20211206171043458](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211206171043458.png)
+![微信截图_20211221155120](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211221155120.png)
 
 
 
@@ -649,7 +649,7 @@ WHERE employee_id MOD 2 = 0;
 
 比较运算符经常被用来作为SELECT查询语句的条件来使用，返回符合条件的结果记录。
 
-![image-202112091559567](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-202112091559567.png)
+![微信截图_20211221155225](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211221155225.png)
 
 
 
@@ -693,9 +693,9 @@ FROM DUAL;
 
 ```
 
-![image-2021120710260](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-2021120710260.png)
+![微信截图_20211221155303](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211221155303.png)
 
-![image-2021120710295](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-2021120710295.png)
+
 
 
 
@@ -1293,7 +1293,7 @@ WHERE manager_id IN (100,101,110);
 
 
 
-![image-20211209110322144](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211209110322144.png)
+![微信截图_20211221155353](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211221155353.png)
 
 数字编号越大，优先级越高，优先级高的运算符先进行计算。可以看到，赋值运算符的优先级最低，使用“()”括起来的表达式的优先级最高。
 
@@ -1303,7 +1303,7 @@ WHERE manager_id IN (100,101,110);
 
 MySQL中使用REGEXP关键字指定正则表达式的字符匹配模式。下表列出了REGEXP操作符中常用字符匹配列表。
 
-![image-20211209110422253](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211209110422253.png)
+![微信截图_20211221155428](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211221155428.png)
 
 
 
@@ -1843,7 +1843,7 @@ SELECT id,tname FROM t_usmale WHERE tGender='male';
 
 ### 12.6 7种SQL JOINS的实现
 
-![image-20211221105631985](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211221105631985.png)
+![微信截图_20211221155518](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211221155518.png)
 
 
 
