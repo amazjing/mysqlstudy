@@ -140,11 +140,7 @@ ORM思想 (Object Relational Mapping)体现：
   - 部门表：编号、名称、简介
 - 一对多建表原则：在从表(多方)创建一个字段，字段作为外键指向主表(一方)的主键
 
-![image-20210915001013524](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20210915001013524.png)
-
-![image-202109142356105](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-202109142356105.png)
-
-![image-20210915084623432](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20210915084623432.png)
+![微信截图_20211221155826](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211221155826.png)
 
 
 
