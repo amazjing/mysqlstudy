@@ -1994,3 +1994,164 @@ on 关联条件
 where 从表关联字段 is null and 等其他子句
 ```
 
+
+
+### 12.8 多表查询的课后练习
+
+1. 显示所有员工的姓名，部门号和部门名称。
+
+   ```mysql
+   #结果：107条数据
+   SELECT e.last_name,e.department_id,d.department_name
+   FROM employees e
+   LEFT JOIN departments d
+   ON e.department_id = d.department_id;
+   ```
+
+2. 查询90号部门员工的job_id和90号部门的location_id
+
+   ```mysql
+   #结果:3条数据
+   SELECT e.job_id,d.location_id
+   FROM employees e
+   JOIN departments d
+   ON e.department_id = d.department_id
+   WHERE e.department_id = 90
+   ```
+
+   结果：
+
+   | job_id  | location_id |
+   | ------- | ----------- |
+   | AD_PRES | 1700        |
+   | AD_VP   | 1700        |
+   | AD_VP   | 1700        |
+
+3. 查询所有有奖金的员工的 last_name , department_name , location_id , city
+
+   ```mysql
+   #先查询的看看所有有奖金的员工也就是commission_pct字段不为NULL的有多少条数据
+   SELECT * FROM employees
+   WHERE commission_pct IS NOT NULL;
+   #以上语句查询出结果为35条数据，那么这道题的查询结果也必须为35条数据！！！
+   
+   
+   #注意：使用以下sql语句查询得到的是34条数据，原因是一位员工，没有部门id，但是有奖金。
+   #产生错误的原因是因为，没有使用外连接。
+   SELECT e.last_name,e.commission_pct,d.department_name,d.location_id,l.city
+   FROM employees e
+   JOIN departments d
+   ON e.department_id = d.department_id
+   JOIN locations l
+   ON d.location_id = l.location_id
+   WHERE e.commission_pct IS NOT NULL;
+   
+   #正确的SQL语句;结果：35条数据
+   SELECT e.last_name,e.commission_pct,d.department_name,d.location_id,l.city
+   FROM employees e
+   LEFT JOIN departments d
+   ON e.department_id = d.department_id
+   LEFT JOIN locations l
+   ON d.location_id = l.location_id
+   WHERE e.commission_pct IS NOT NULL;
+   ```
+
+4. 查询city在Toronto工作的员工的 last_name , job_id , department_id , department_name
+
+   ```mysql
+   #结果:2条数据
+   SELECT e.last_name,e.job_id,d.department_id,d.department_name
+   FROM employees e
+   JOIN departments d
+   ON e.department_id = d.department_id
+   JOIN locations l
+   ON d.location_id = l.location_id
+   WHERE l.city = 'Toronto';
+   ```
+
+   结果：
+
+   | last_name | job_id | department_id | department_name |
+   | --------- | ------ | ------------- | --------------- |
+   | Hartstein | MK_MAN | 20            | Marketing       |
+   | Fay       | MK_REP | 20            | Marketing       |
+
+5. 查询员工所在的部门名称、部门地址、姓名、工作、工资，其中员工所在部门的部门名称为'Executive' 
+
+   ```mysql
+   #结果：3条数据
+   SELECT d.department_name,l.street_address,e.last_name,j.job_id,e.salary
+   FROM departments d
+   JOIN locations l
+   ON d.location_id = l.location_id
+   JOIN employees e
+   ON d.department_id = e.department_id
+   JOIN jobs j
+   ON e.job_id = j.job_id
+   WHERE d.department_name = 'Executive';
+   ```
+
+   结果：
+
+   | department_name | street_address  | last_name | job_id  | salary   |
+   | --------------- | --------------- | --------- | ------- | -------- |
+   | Executive       | 2004 Charade Rd | King      | AD_PRES | 24000.00 |
+   | Executive       | 2004 Charade Rd | Kochhar   | AD_VP   | 17000.00 |
+   | Executive       | 2004 Charade Rd | De Haan   | AD_VP   | 17000.00 |
+
+6. 查询指定员工的姓名，员工号，以及他的管理者的姓名和员工号
+
+   ```mysql
+   #结果类似于下面的格式 
+   employees	Emp#	manager	Mgr# 
+   
+   kochhar		101		king	100 
+   #结果：107条数据
+   SELECT emp.last_name 'employees',emp.employee_id 'Emp#',mgr.last_name 'manager',mgr.employee_id 'Mgr#'
+   FROM employees emp 
+   LEFT JOIN employees mgr
+   ON emp.manager_id = mgr.employee_id
+   ```
+
+7. 查询哪些部门没有员工
+
+   ```mysql
+   #结果：16条数据
+   SELECT d.department_id ,d.department_name
+   FROM departments d
+   LEFT JOIN employees e
+   ON d.department_id = e.department_id
+   WHERE e.department_id IS NULL
+   
+   #方式2：使用子查询
+   SELECT department_id FROM departments d 
+   WHERE NOT EXISTS ( 
+   	SELECT * 
+   	FROM employees e 
+   	WHERE 
+   	e.`department_id` = d.`department_id` 
+   )
+   ```
+
+8. 查询哪个城市没有部门
+
+   ```mysql
+   #结果：16条数据
+   SELECT l.location_id,l.city 
+   FROM locations l 
+   LEFT JOIN departments d 
+   ON l.`location_id` = d.`location_id` 
+   WHERE d.`location_id` IS NULL
+   ```
+
+9. 查询部门名为 Sales 或 IT 的员工信息
+
+   ```mysql
+   #结果：39条数据
+   SELECT e.employee_id,e.last_name,d.department_name 
+   FROM employees e,departments d 
+   WHERE e.department_id = d.`department_id` AND d.`department_name` IN ('Sales','IT');
+   ```
+
+   
+
