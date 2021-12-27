@@ -2155,3 +2155,529 @@ where 从表关联字段 is null and 等其他子句
 
    
 
+## 13. 单行函数
+
+### 13.1 什么是函数
+
+函数在计算机语言的使用中贯穿始终，函数的作用是什么呢？它可以把我们经常使用的代码封装起来，需要的时候直接调用即可。这样既`提高了代码效率`，又`提高了可维护性`。在 SQL 中我们也可以使用函数对检索出来的数据进行函数操作。使用这些函数，可以极大地`提高用户对数据库的管理效率`。
+
+从函数定义的角度出发，我们可以将函数分成`内置函数`和`自定义函数`。在 SQL 语言中，同样也包括了内置函数和自定义函数。内置函数是系统内置的通用函数，而自定义函数是我们根据自己的需要编写。
+
+### 13.2 MySQL的内置函数及分类
+
+MySQL提供的内置函数从`实现的功能角度`可以分为数值函数、字符串函数、日期和时间函数、流程控制函数、加密与解密函数、获取MySQL信息函数、聚合函数等。这里，我将这些丰富的内置函数再分为两类：`单行函数`、`聚合函数（或分组函数）`。
+
+**两种SQL函数**
+
+![](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211227142300.png)
+
+
+
+**单行函数**
+
+- 操作数据对象
+- 接受参数返回一个结果
+- **只对一行进行变换**
+- **每行返回一个结果**
+- 可以嵌套
+- 参数可以是一列或一个值
+
+
+
+### 13.3 数值函数
+
+#### 13.3.1 基本函数
+
+| 函数                | 用法                                                         |
+| ------------------- | ------------------------------------------------------------ |
+| ABS(x)              | 返回x的绝对值                                                |
+| SIGN(X)             | 返回X的符号。正数返回1，负数返回-1，0返回0                   |
+| PI()                | 返回圆周率的值                                               |
+| CEIL(x)，CEILING(x) | 返回大于或等于某个值的最小整数                               |
+| FLOOR(x)            | 返回小于或等于某个值的最大整数                               |
+| LEAST(e1,e2,e3…)    | 返回列表中的最小值                                           |
+| GREATEST(e1,e2,e3…) | 返回列表中的最大值                                           |
+| MOD(x,y)            | 返回X除以Y后的余数                                           |
+| RAND()              | 返回0~1的随机值                                              |
+| RAND(x)             | 返回0~1的随机值，其中x的值用作种子值，相同的X值会产生相同的随机数 |
+| ROUND(x)            | 返回一个对x的值进行四舍五入后，最接近于X的整数               |
+| ROUND(x,y)          | 返回一个对x的值进行四舍五入后最接近X的值，并保留到小数点后面Y位 |
+| TRUNCATE(x,y)       | 返回数字x截断为y位小数的结果                                 |
+| SQRT(x)             | 返回x的平方根。当X的值为负数时，返回NULL                     |
+
+举例：
+
+```mysql
+SELECT ABS(-123),ABS(32),SIGN(-23),SIGN(43),PI(),CEIL(32.32),CEILING(-43.23),FLOOR(32.32),FLOOR(-43.23),MOD(12,5)FROM DUAL;
+```
+
+![](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211227145825.png)
+
+```mysql
+SELECT RAND(),RAND(),RAND(10),RAND(10),RAND(-1),RAND(-1)
+FROM DUAL;
+```
+
+![](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211227145945.png)
+
+```mysql
+SELECT ROUND(12.33),ROUND(12.343,2),ROUND(12.324,-1),TRUNCATE(12.66,1),TRUNCATE(12.66,-1)
+FROM DUAL;
+```
+
+![](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211227150100.png)
+
+
+
+#### 13.3.2 角度与弧度互换函数
+
+| 函数       | 用法                                  |
+| ---------- | ------------------------------------- |
+| RADIANS(x) | 将角度转化为弧度，其中，参数x为角度值 |
+| DEGREES(x) | 将弧度转化为角度，其中，参数x为弧度值 |
+
+```mysql
+SELECT RADIANS(30),RADIANS(60),RADIANS(90),DEGREES(2*PI()),DEGREES(RADIANS(90))
+FROM DUAL;
+```
+
+
+
+#### 13.3.3 三角函数
+
+| 函数       | 用法                                                         |
+| ---------- | ------------------------------------------------------------ |
+| SIN(x)     | 返回x的正弦值，其中，参数x为弧度值                           |
+| ASIN(x)    | 返回x的反正弦值，即获取正弦为x的值。如果x的值不在-1到1之间，则返回NULL |
+| COS(x)     | 返回x的余弦值，其中，参数x为弧度值                           |
+| ACOS(x)    | 返回x的反余弦值，即获取余弦为x的值。如果x的值不在-1到1之间，则返回NULL |
+| TAN(x)     | 返回x的正切值，其中，参数x为弧度值                           |
+| ATAN(x)    | 返回x的反正切值，即返回正切值为x的值                         |
+| ATAN2(m,n) | 返回两个参数的反正切值                                       |
+| COT(x)     | 返回x的余切值，其中，X为弧度值                               |
+
+
+
+#### 13.3.4 指数与对数
+
+| 函数                 | 用法                                                 |
+| -------------------- | ---------------------------------------------------- |
+| POW(x,y)，POWER(X,Y) | 返回x的y次方                                         |
+| EXP(X)               | 返回e的X次方，其中e是一个常数，2.718281828459045     |
+| LN(X)，LOG(X)        | 返回以e为底的X的对数，当X <= 0 时，返回的结果为NULL  |
+| LOG10(X)             | 返回以10为底的X的对数，当X <= 0 时，返回的结果为NULL |
+| LOG2(X)              | 返回以2为底的X的对数，当X <= 0 时，返回NULL          |
+
+```mysql
+mysql> SELECT POW(2,5),POWER(2,4),EXP(2),LN(10),LOG10(10),LOG2(4)
+    -> FROM DUAL;
++----------+------------+------------------+-------------------+-----------+---------+
+| POW(2,5) | POWER(2,4) | EXP(2)           | LN(10)            | LOG10(10) | LOG2(4) |
++----------+------------+------------------+-------------------+-----------+---------+
+|       32 |         16 | 7.38905609893065 | 2.302585092994046 |         1 |       2 |
++----------+------------+------------------+-------------------+-----------+---------+
+1 row in set (0.00 sec)
+```
+
+
+
+#### 13.3.5 进制间的转换
+
+| 函数          | 用法                     |
+| ------------- | ------------------------ |
+| BIN(x)        | 返回x的二进制编码        |
+| HEX(x)        | 返回x的十六进制编码      |
+| OCT(x)        | 返回x的八进制编码        |
+| CONV(x,f1,f2) | 返回f1进制数变成f2进制数 |
+
+```mysql
+mysql> SELECT BIN(10),HEX(10),OCT(10),CONV(10,2,8)
+    -> FROM DUAL;
++---------+---------+---------+--------------+
+| BIN(10) | HEX(10) | OCT(10) | CONV(10,2,8) |
++---------+---------+---------+--------------+
+| 1010    | A       | 12      | 2            |
++---------+---------+---------+--------------+
+1 row in set (0.00 sec)
+```
+
+
+
+### 13.4 字符串函数
+
+| 函数                              | 用法                                                         |
+| --------------------------------- | ------------------------------------------------------------ |
+| ASCII(S)                          | 返回字符串S中的第一个字符的ASCII码值                         |
+| CHAR_LENGTH(s)                    | 返回字符串s的字符数。作用与CHARACTER_LENGTH(s)相同           |
+| LENGTH(s)                         | 返回字符串s的字节数，和字符集有关                            |
+| CONCAT(s1,s2,......,sn)           | 连接s1,s2,......,sn为一个字符串                              |
+| CONCAT_WS(x, s1,s2,......,sn)     | 同CONCAT(s1,s2,...)函数，但是每个字符串之间要加上x           |
+| INSERT(str, idx, len, replacestr) | 将字符串str从第idx位置开始，len个字符长的子串替换为字符串replacestr |
+| REPLACE(str, a, b)                | 用字符串b替换字符串str中所有出现的字符串a                    |
+| UPPER(s) 或 UCASE(s)              | 将字符串s的所有字母转成大写字母                              |
+| LOWER(s)  或LCASE(s)              | 将字符串s的所有字母转成小写字母                              |
+| LEFT(str,n)                       | 返回字符串str最左边的n个字符                                 |
+| RIGHT(str,n)                      | 返回字符串str最右边的n个字符                                 |
+| LPAD(str, len, pad)               | 用字符串pad对str最左边进行填充，直到str的长度为len个字符     |
+| RPAD(str ,len, pad)               | 用字符串pad对str最右边进行填充，直到str的长度为len个字符     |
+| LTRIM(s)                          | 去掉字符串s左侧的空格                                        |
+| RTRIM(s)                          | 去掉字符串s右侧的空格                                        |
+| TRIM(s)                           | 去掉字符串s开始与结尾的空格                                  |
+| TRIM(s1 FROM s)                   | 去掉字符串s开始与结尾的s1                                    |
+| TRIM(LEADING s1 FROM s)           | 去掉字符串s开始处的s1                                        |
+| TRIM(TRAILING s1 FROM s)          | 去掉字符串s结尾处的s1                                        |
+| REPEAT(str, n)                    | 返回str重复n次的结果                                         |
+| SPACE(n)                          | 返回n个空格                                                  |
+| STRCMP(s1,s2)                     | 比较字符串s1,s2的ASCII码值的大小                             |
+| SUBSTR(s,index,len)               | 返回从字符串s的index位置其len个字符，作用与SUBSTRING(s,n,len)、MID(s,n,len)相同 |
+| LOCATE(substr,str)                | 返回字符串substr在字符串str中首次出现的位置，作用于POSITION(substr IN str)、INSTR(str,substr)相同。未找到，返回0 |
+| ELT(m,s1,s2,…,sn)                 | 返回指定位置的字符串，如果m=1，则返回s1，如果m=2，则返回s2，如果m=n，则返回sn |
+| FIELD(s,s1,s2,…,sn)               | 返回字符串s在字符串列表中第一次出现的位置                    |
+| FIND_IN_SET(s1,s2)                | 返回字符串s1在字符串s2中出现的位置。其中，字符串s2是一个以逗号分隔的字符串 |
+| REVERSE(s)                        | 返回s反转后的字符串                                          |
+| NULLIF(value1,value2)             | 比较两个字符串，如果value1与value2相等，则返回NULL，否则返回value1 |
+
+> 注意：MySQL中，字符串的位置是从1开始的。
+
+举例：
+
+```mysql
+mysql> SELECT FIELD('mm','hello','msm','amma'),FIND_IN_SET('mm','hello,mm,amma')
+    -> FROM DUAL;
++----------------------------------+-----------------------------------+
+| FIELD('mm','hello','msm','amma') | FIND_IN_SET('mm','hello,mm,amma') |
++----------------------------------+-----------------------------------+
+|                                0 |                                 2 |
++----------------------------------+-----------------------------------+
+1 row in set (0.00 sec)
+```
+
+```mysql
+mysql> SELECT NULLIF('mysql','mysql'),NULLIF('mysql', '');
++-------------------------+---------------------+
+| NULLIF('mysql','mysql') | NULLIF('mysql', '') |
++-------------------------+---------------------+
+| NULL                    | mysql               |
++-------------------------+---------------------+
+1 row in set (0.00 sec)
+```
+
+
+
+### 13.5 日期和时间函数
+
+#### 13.5.1 获取日期、时间
+
+| 函数                                                         | 用法                           |
+| ------------------------------------------------------------ | ------------------------------ |
+| **CURDATE()** ，CURRENT_DATE()                               | 返回当前日期，只包含年、月、日 |
+| **CURTIME()** ， CURRENT_TIME()                              | 返回当前时间，只包含时、分、秒 |
+| **NOW()** / SYSDATE() / CURRENT_TIMESTAMP() / LOCALTIME() / LOCALTIMESTAMP() | 返回当前系统日期和时间         |
+| UTC_DATE()                                                   | 返回UTC（世界标准时间）日期    |
+| UTC_TIME()                                                   | 返回UTC（世界标准时间）时间    |
+
+举例：
+
+```mysql
+SELECT CURDATE(),CURTIME(),NOW(),SYSDATE()+0,UTC_DATE(),UTC_DATE()+0,UTC_TIME(),UTC_TIME()+0
+FROM DUAL;
+```
+
+![](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211227153603.png)
+
+
+
+#### 13.5.2 日期与时间戳的转换
+
+| 函数                     | 用法                                                         |
+| ------------------------ | ------------------------------------------------------------ |
+| UNIX_TIMESTAMP()         | 以UNIX时间戳的形式返回当前时间。SELECT UNIX_TIMESTAMP() ->1634348884 |
+| UNIX_TIMESTAMP(date)     | 将时间date以UNIX时间戳的形式返回。                           |
+| FROM_UNIXTIME(timestamp) | 将UNIX时间戳的时间转换为普通格式的时间                       |
+
+举例：
+
+```mysql
+mysql> SELECT UNIX_TIMESTAMP(now());
++-----------------------+
+| UNIX_TIMESTAMP(now()) |
++-----------------------+
+|            1576380910 |
++-----------------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT UNIX_TIMESTAMP(CURDATE());
++---------------------------+
+| UNIX_TIMESTAMP(CURDATE()) |
++---------------------------+
+|                1576339200 |
++---------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT UNIX_TIMESTAMP(CURTIME());
++---------------------------+
+| UNIX_TIMESTAMP(CURTIME()) |
++---------------------------+
+|                1576380969 |
++---------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT UNIX_TIMESTAMP('2011-11-11 11:11:11')
++---------------------------------------+
+| UNIX_TIMESTAMP('2011-11-11 11:11:11') |
++---------------------------------------+
+|                            1320981071 |
++---------------------------------------+
+1 row in set (0.00 sec)
+```
+
+```mysql
+mysql> SELECT FROM_UNIXTIME(1576380910);
++---------------------------+
+| FROM_UNIXTIME(1576380910) |
++---------------------------+
+| 2019-12-15 11:35:10       |
++---------------------------+
+1 row in set (0.00 sec)
+```
+
+
+
+#### 13.5.3 获取月份、星期、星期数、天数等函数
+
+| 函数                                     | 用法                                            |
+| ---------------------------------------- | ----------------------------------------------- |
+| YEAR(date) / MONTH(date) / DAY(date)     | 返回具体的日期值                                |
+| HOUR(time) / MINUTE(time) / SECOND(time) | 返回具体的时间值                                |
+| MONTHNAME(date)                          | 返回月份：January，...                          |
+| DAYNAME(date)                            | 返回星期几：MONDAY，TUESDAY.....SUNDAY          |
+| WEEKDAY(date)                            | 返回周几，注意，周1是0，周2是1，。。。周日是6   |
+| QUARTER(date)                            | 返回日期对应的季度，范围为1～4                  |
+| WEEK(date) ， WEEKOFYEAR(date)           | 返回一年中的第几周                              |
+| DAYOFYEAR(date)                          | 返回日期是一年中的第几天                        |
+| DAYOFMONTH(date)                         | 返回日期位于所在月份的第几天                    |
+| DAYOFWEEK(date)                          | 返回周几，注意：周日是1，周一是2，。。。周六是7 |
+
+举例：
+
+```mysql
+SELECT YEAR(CURDATE()),MONTH(CURDATE()),DAY(CURDATE()),
+HOUR(CURTIME()),MINUTE(NOW()),SECOND(SYSDATE())
+FROM DUAL;
+```
+
+![](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211227153851.png)
+
+```mysql
+SELECT MONTHNAME('2021-10-26'),DAYNAME('2021-10-26'),WEEKDAY('2021-10-26'),
+QUARTER(CURDATE()),WEEK(CURDATE()),DAYOFYEAR(NOW()),
+DAYOFMONTH(NOW()),DAYOFWEEK(NOW())
+FROM DUAL;
+```
+
+![](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211227153934.png)
+
+
+
+#### 13.5.4 日期的操作函数
+
+| 函数                    | 用法                                       |
+| ----------------------- | ------------------------------------------ |
+| EXTRACT(type FROM date) | 返回指定日期中特定的部分，type指定返回的值 |
+
+**EXTRACT(type FROM date)函数中type的取值与含义：**
+
+![](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211227154053.png)
+
+```mysql
+SELECT EXTRACT(MINUTE FROM NOW()),EXTRACT( WEEK FROM NOW()),
+EXTRACT( QUARTER FROM NOW()),EXTRACT( MINUTE_SECOND FROM NOW())
+FROM DUAL;
+```
+
+#### 13.5.5 时间和秒钟转换的函数
+
+| 函数                 | 用法                                                         |
+| -------------------- | ------------------------------------------------------------ |
+| TIME_TO_SEC(time)    | 将 time 转化为秒并返回结果值。转化的公式为：`小时*3600+分钟*60+秒` |
+| SEC_TO_TIME(seconds) | 将 seconds 描述转化为包含小时、分钟和秒的时间                |
+
+举例：
+
+```mysql
+mysql> SELECT TIME_TO_SEC(NOW());
++--------------------+
+| TIME_TO_SEC(NOW()) |
++--------------------+
+|               78774 |
++--------------------+
+1 row in set (0.00 sec)
+```
+
+```mysql
+mysql> SELECT SEC_TO_TIME(78774);
++--------------------+
+| SEC_TO_TIME(78774) |
++--------------------+
+| 21:52:54            |
++--------------------+
+1 row in set (0.12 sec)
+```
+
+
+
+#### 13.5.6 计算日期和时间的函数
+
+**第1组：**
+
+| 函数                                                         | 用法                                           |
+| ------------------------------------------------------------ | ---------------------------------------------- |
+| DATE_ADD(datetime, INTERVAL  expr type)，ADDDATE(date,INTERVAL expr type) | 返回与给定日期时间相差INTERVAL时间段的日期时间 |
+| DATE_SUB(date,INTERVAL expr type)，SUBDATE(date,INTERVAL expr type) | 返回与date相差INTERVAL时间间隔的日期           |
+
+**上述函数中type的取值：**
+
+![](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211227154310.png)
+
+举例：
+
+```mysql
+SELECT DATE_ADD(NOW(), INTERVAL 1 DAY) AS col1,DATE_ADD('2021-10-21 23:32:12',INTERVAL 1 SECOND) AS col2,
+ADDDATE('2021-10-21 23:32:12',INTERVAL 1 SECOND) AS col3,
+DATE_ADD('2021-10-21 23:32:12',INTERVAL '1_1' MINUTE_SECOND) AS col4,
+DATE_ADD(NOW(), INTERVAL -1 YEAR) AS col5, #可以是负数
+DATE_ADD(NOW(), INTERVAL '1_1' YEAR_MONTH) AS col6 #需要单引号
+FROM DUAL;
+```
+
+```mysql
+SELECT DATE_SUB('2021-01-21',INTERVAL 31 DAY) AS col1,
+SUBDATE('2021-01-21',INTERVAL 31 DAY) AS col2,
+DATE_SUB('2021-01-21 02:01:01',INTERVAL '1 1' DAY_HOUR) AS col3
+FROM DUAL;
+```
+
+**第2组：**
+
+| 函数                         | 用法                                                         |
+| ---------------------------- | ------------------------------------------------------------ |
+| ADDTIME(time1,time2)         | 返回time1加上time2的时间。当time2为一个数字时，代表的是`秒`，可以为负数 |
+| SUBTIME(time1,time2)         | 返回time1减去time2后的时间。当time2为一个数字时，代表的是`秒`，可以为负数 |
+| DATEDIFF(date1,date2)        | 返回date1 - date2的日期间隔天数                              |
+| TIMEDIFF(time1, time2)       | 返回time1 - time2的时间间隔                                  |
+| FROM_DAYS(N)                 | 返回从0000年1月1日起，N天以后的日期                          |
+| TO_DAYS(date)                | 返回日期date距离0000年1月1日的天数                           |
+| LAST_DAY(date)               | 返回date所在月份的最后一天的日期                             |
+| MAKEDATE(year,n)             | 针对给定年份与所在年份中的天数返回一个日期                   |
+| MAKETIME(hour,minute,second) | 将给定的小时、分钟和秒组合成时间并返回                       |
+| PERIOD_ADD(time,n)           | 返回time加上n后的时间                                        |
+
+举例：
+
+```mysql
+SELECT ADDTIME(NOW(),20),SUBTIME(NOW(),30),SUBTIME(NOW(),'1:1:3'),DATEDIFF(NOW(),'2021-10-01'),
+TIMEDIFF(NOW(),'2021-10-25 22:10:10'),FROM_DAYS(366),TO_DAYS('0000-12-25'),
+LAST_DAY(NOW()),MAKEDATE(YEAR(NOW()),12),MAKETIME(10,21,23),PERIOD_ADD(20200101010101,10)
+FROM DUAL;
+```
+
+```mysql
+mysql> SELECT ADDTIME(NOW(), 50);
++---------------------+
+| ADDTIME(NOW(), 50)  |
++---------------------+
+| 2019-12-15 22:17:47 |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT ADDTIME(NOW(), '1:1:1');
++-------------------------+
+| ADDTIME(NOW(), '1:1:1') |
++-------------------------+
+| 2019-12-15 23:18:46     |
++-------------------------+
+1 row in set (0.00 sec)
+```
+
+```mysql
+mysql> SELECT SUBTIME(NOW(), '1:1:1');
++-------------------------+
+| SUBTIME(NOW(), '1:1:1') |
++-------------------------+
+| 2019-12-15 21:23:50     |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT SUBTIME(NOW(), '-1:-1:-1'); 
++----------------------------+
+| SUBTIME(NOW(), '-1:-1:-1') |
++----------------------------+
+| 2019-12-15 22:25:11        |
++----------------------------+
+1 row in set, 1 warning (0.00 sec)
+```
+
+```mysql
+mysql> SELECT FROM_DAYS(366);
++----------------+
+| FROM_DAYS(366) |
++----------------+
+| 0001-01-01     |
++----------------+
+1 row in set (0.00 sec)
+```
+
+```mysql
+mysql> SELECT MAKEDATE(2020,1);
++------------------+
+| MAKEDATE(2020,1) |
++------------------+
+| 2020-01-01       |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MAKEDATE(2020,32);
++-------------------+
+| MAKEDATE(2020,32) |
++-------------------+
+| 2020-02-01        |
++-------------------+
+1 row in set (0.00 sec)
+```
+
+```mysql
+mysql> SELECT MAKETIME(1,1,1);
++-----------------+
+| MAKETIME(1,1,1) |
++-----------------+
+| 01:01:01        |
++-----------------+
+1 row in set (0.00 sec)
+```
+
+```mysql
+mysql> SELECT PERIOD_ADD(20200101010101,1);
++------------------------------+
+| PERIOD_ADD(20200101010101,1) |
++------------------------------+
+|               20200101010102 |
++------------------------------+
+1 row in set (0.00 sec)
+```
+
+```mysql
+mysql> SELECT TO_DAYS(NOW());
++----------------+
+| TO_DAYS(NOW()) |
++----------------+
+|          737773 |
++----------------+
+1 row in set (0.00 sec)
+```
+
+举例：查询 7 天内的新增用户数有多少？
+
+```mysql
+SELECT COUNT(*) as num FROM new_user WHERE TO_DAYS(NOW())-TO_DAYS(regist_time)<=7
+```
+
