@@ -2310,7 +2310,7 @@ mysql> SELECT BIN(10),HEX(10),OCT(10),CONV(10,2,8)
 | ASCII(S)                          | 返回字符串S中的第一个字符的ASCII码值                         |
 | CHAR_LENGTH(s)                    | 返回字符串s的字符数。作用与CHARACTER_LENGTH(s)相同           |
 | LENGTH(s)                         | 返回字符串s的字节数，和字符集有关                            |
-| CONCAT(s1,s2,......,sn)           | 连接s1,s2,......,sn为一个字符串                              |
+| **CONCAT(s1,s2,......,sn)**       | **连接s1,s2,......,sn为一个字符串，可以根据查出来的数据字段与自定义的字符串进行拼接** |
 | CONCAT_WS(x, s1,s2,......,sn)     | 同CONCAT(s1,s2,...)函数，但是每个字符串之间要加上x           |
 | INSERT(str, idx, len, replacestr) | 将字符串str从第idx位置开始，len个字符长的子串替换为字符串replacestr |
 | REPLACE(str, a, b)                | 用字符串b替换字符串str中所有出现的字符串a                    |
