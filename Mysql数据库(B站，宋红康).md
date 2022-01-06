@@ -2722,6 +2722,26 @@ GET_FORMAT函数中date_type和format_type参数取值如下：
 举例：
 
 ```mysql
+#格式化
+SELECT DATE_FORMAT(CURRENT_DATE(),'%Y-%M-%D'),
+DATE_FORMAT(NOW(),'%Y-%m-%d'),TIME_FORMAT(CURTIME(),'%h:%i:%s'),
+DATE_FORMAT(NOW(),'%Y-%M-%D %h:%i:%S  %W %w %T %r')
+FROM DUAL
+
+#解析：格式化的逆过程
+SELECT STR_TO_DATE('2022-January-6th 08:11:36  Thursday 4','%Y-%M-%D %h:%i:%S  %W %w')
+FROM DUAL
+```
+
+
+
+![](https://gitee.com/Amazjing/markdown-img/raw/master/img/微信截图_20220106200858.png)
+
+![](https://gitee.com/Amazjing/markdown-img/raw/master/img/微信截图_20220106201607.png)
+
+
+
+```mysql
 mysql> SELECT DATE_FORMAT(NOW(), '%H:%i:%s');
 +--------------------------------+
 | DATE_FORMAT(NOW(), '%H:%i:%s') |
