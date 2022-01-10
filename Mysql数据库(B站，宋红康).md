@@ -2798,6 +2798,77 @@ mysql> SELECT STR_TO_DATE('2020-01-01 00:00:00','%Y-%m-%d');
 | CASE WHEN 条件1 THEN 结果1 WHEN 条件2 THEN 结果2 .... [ELSE resultn] END | 相当于Java的if...else if...else...              |
 | CASE  expr WHEN 常量值1 THEN 值1 WHEN 常量值1 THEN 值1 .... [ELSE 值n] END | 相当于Java的switch...case...                    |
 
+
+
+
+
+```mysql
+#流程控制函数
+#14.1 IF(VALUE,VALUE1,VALUE2)
+#如果value的值为TRUE，返回value1，否则返回value2
+
+#salary大于6000的"details"列输出“高工资”，反之输出“低工资”
+SELECT last_name,salary,
+IF(salary >=6000,'高工资','低工资') "details"
+FROM employees;
+
+#commission_pct如果不为NULL,在"details"列，输出commission_pct的值；
+#commission_pct如果为NULL,在"details"列，输出0
+SELECT last_name,commission_pct,
+IF(commission_pct IS NOT NULL,commission_pct,0) "details",
+salary * 12 * (1 + IF(commission_pct IS NOT NULL,commission_pct,0)) "anunal_sal"
+FROM employees;
+
+#14.2 IF(VALUE1,VALUE2):看做是IF(VALUE,VALUE1,VALUE2)语句的特殊情况
+#如果commission_pct不是NULL，在"details"列输出commission_pct字段的值；
+#如果commission_pct是NULL，在"details"列输出0；
+SELECT last_name,commission_pct,
+IFNULL(commission_pct,0) "details"
+FROM employees;
+
+
+#14.3 CASE WHEN ... THEN ... WHEN ... THEN ... ELSE ... END
+#类似于java的if ... else ... if ... else
+#如果salary >= 15000，则“details”列输出'白骨精'；
+#如果salary >= 10000，则“details”列输出'潜力股'；
+#如果salary >= 8000，则“details”列输出'拼搏人'；
+#其余的，则“details”列输出'普通群众'；
+SELECT last_name,salary,
+CASE WHEN salary >= 15000 THEN '白骨精'
+		 WHEN salary >= 10000 THEN '潜力股'
+		 WHEN salary >= 8000  THEN '拼搏人'
+		 ELSE '普通群众' END "details"
+FROM employees;
+
+#14.4 CASE ... WHEN ... THEN ... WHEN ... THEN ... ELSE ... END
+#类似于java的swich ... case
+/*
+练习1：
+查询部门号为 10,20, 30 的员工信息, 若部门号为 10, 则打印其工资的 1.1 倍, 20 号部门, 则打印其工资的 1.2 倍, 30 号部门打印其工资的 1.3 倍数，其他部门，打印工资的1.4倍数
+*/
+SELECT employee_id,last_name,department_id,salary,
+CASE department_id WHEN 10 THEN salary * 1.1
+									 WHEN 20 THEN salary * 1.2
+									 WHEN 30 THEN salary * 1.3
+									 ELSE salary * 1.4 END "details"
+FROM employees;									 
+
+/*
+练习2：
+查询部门号为 10,20, 30 的员工信息, 若部门号为 10, 则打印其工资的 1.1 倍, 20 号部门, 则打印其工资的 1.2 倍, 30 号部门打印其工资的 1.3 倍数
+*/
+SELECT employee_id,last_name,department_id,salary,
+CASE department_id WHEN 10 THEN salary * 1.1
+									 WHEN 20 THEN salary * 1.2
+									 WHEN 30 THEN salary * 1.3
+									 END "details"
+FROM employees
+WHERE department_id IN(10,20,30);
+
+```
+
+
+
 ```mysql
 SELECT IF(1 > 0,'正确','错误')    
 ->正确
