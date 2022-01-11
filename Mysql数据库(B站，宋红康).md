@@ -3178,3 +3178,34 @@ mysql> SELECT CHARSET('mysql'), CHARSET(CONVERT('mysql' USING 'utf8'));
 1 row in set, 1 warning (0.00 sec)
 ```
 
+
+
+## 18. 单行函数练习题
+
+```mysql
+# 1.显示系统时间(注：日期+时间) 
+SELECT NOW(),SYSDATE(),CURRENT_TIMESTAMP(),LOCALTIME(),LOCALTIMESTAMP()
+FROM DUAL;
+
+# 2.查询员工号，姓名，工资，以及工资提高百分之20%后的结果（new salary） 
+SELECT employee_id,last_name,salary,salary * 1.2 'new salary'
+FROM employees;
+
+# 3.将员工的姓名按首字母排序，并写出姓名的长度（length）
+SELECT last_name,LENGTH(last_name) 'last_name_length'
+FROM employees
+ORDER BY last_name ASC;
+
+# 4.查询员工id,last_name,salary，并作为一个列输出，别名为OUT_PUT
+SELECT CONCAT(employee_id,last_name,salary) 'OUT_PUT'
+FROM employees;
+
+# 5.查询公司各员工工作的年数、工作的天数，并按工作年数的降序排序
+
+SELECT last_name,DATEDIFF(CURDATE(),hire_date)/365 'worked_years',DATEDIFF(CURDATE(),hire_date) 'worked_days',TO_DAYS(CURDATE()) - TO_DAYS(hire_date) 'worked_days1'
+FROM employees
+ORDER BY worked_years DESC
+
+
+```
+
