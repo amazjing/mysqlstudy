@@ -3201,11 +3201,22 @@ SELECT CONCAT(employee_id,last_name,salary) 'OUT_PUT'
 FROM employees;
 
 # 5.查询公司各员工工作的年数、工作的天数，并按工作年数的降序排序
-
 SELECT last_name,DATEDIFF(CURDATE(),hire_date)/365 'worked_years',DATEDIFF(CURDATE(),hire_date) 'worked_days',TO_DAYS(CURDATE()) - TO_DAYS(hire_date) 'worked_days1'
 FROM employees
 ORDER BY worked_years DESC
 
+# 6.查询员工姓名，hire_date , department_id，满足以下条件：雇用时间在 1997年之后，department_id 为80 或 90 或110, commission_pct不为空
+SELECT last_name,hire_date,department_id
+FROM employees
+WHERE department_id IN (80,90,110)
+AND commission_pct IS NOT NULL
+#AND hire_date >= '1997-01-01';		存在隐式转换
+#AND DATE_FORMAT(hire_date,'%Y-%m-%d') >= '1997-01-01';		#显式转换操作，格式化：日期---> 字符串
+AND hire_date >= STR_TO_DATE('1997-01-01','%Y-%m-%d');		#显式转换操作，格式化：字符串---> 日期
 
+# 7.查询公司中入职超过10000天的员工姓名、入职时间
+SELECT last_name,hire_date
+FROM employees
+WHERE DATEDIFF(CURDATE(),hire_date) >= 10000;
 ```
 
