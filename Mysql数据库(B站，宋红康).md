@@ -3220,3 +3220,94 @@ FROM employees
 WHERE DATEDIFF(CURDATE(),hire_date) >= 10000;
 ```
 
+
+
+## 19. 聚合函数
+
+聚合（或聚集、分组）函数，它是对一组数据进行汇总的函数，输入的是一组数据的集合，输出的是单个值。
+
+
+
+### 19.1 聚合函数介绍
+
+- 什么是聚合函数
+
+  聚合函数作用于一组数据，并对一组数据返回一个值。
+
+  ![](https://gitee.com/Amazjing/markdown-img/raw/master/img/微信截图_20220113191821.png)
+
+
+
+- 聚合函数类型
+
+  - **AVG()** 
+  - **SUM()**
+  - **MAX()** 
+  - **MIN()** 
+  - **COUNT() **
+
+- 聚合函数语法
+
+  ![](https://gitee.com/Amazjing/markdown-img/raw/master/img/微信截图_20220113192002.png)
+
+
+
+- 聚合函数不能嵌套调用。比如不能出现类似“AVG(SUM(字段名称))”形式的调用。
+
+
+
+#### 19.1.1 AVG和SUM函数
+
+可以对**数值型数据**使用AVG 和 SUM 函数。
+
+```mysql
+SELECT AVG(salary), MAX(salary),MIN(salary), SUM(salary)
+FROM   employees
+WHERE  job_id LIKE '%REP%';
+```
+
+
+
+#### 19.1.2 MIN和MAX函数
+
+可以对**任意数据类型**的数据使用 MIN 和 MAX 函数。
+
+```mysql
+SELECT MIN(hire_date), MAX(hire_date)
+FROM employees;
+```
+
+
+
+#### 19.1.3 COUNT函数
+
+- COUNT(*)返回表中记录总数，适用于**任意数据类型**。
+
+  ```mysql
+  SELECT COUNT(*)
+  FROM employees
+  WHERE department_id = 50;
+  ```
+
+- COUNT(expr) 返回**expr不为空**的记录总数。
+
+  ```mysql
+  SELECT COUNT(commission_pct)
+  FROM employees
+  WHERE department_id = 50;
+  ```
+
+- **问题：用count(*)，count(1)，count(列名)谁好呢?**
+
+  其实，对于MyISAM引擎的表是没有区别的。这种引擎内部有一计数器在维护着行数。
+
+  Innodb引擎的表用count(*),count(1)直接读行数，复杂度是O(n)，因为innodb真的要去数一遍。但好于具体的count(列名)。
+
+- 问题：**能不能使用count(列名)替换count(*)?**
+
+  不要使用 count(列名)来替代 `count(*)`，`count(*)`是 SQL92 定义的标准统计行数的语法，跟数据库无关，跟 NULL 和非 NULL 无关。 
+
+  说明：count(*)会统计值为 NULL 的行，而 count(列名)不会统计此列为 NULL 值的行。
+
+
+
