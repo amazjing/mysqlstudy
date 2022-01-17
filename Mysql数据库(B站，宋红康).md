@@ -3260,6 +3260,10 @@ WHERE DATEDIFF(CURDATE(),hire_date) >= 10000;
 
 可以对**数值型数据**使用AVG 和 SUM 函数。
 
+AVG：平均值
+
+SUM ：总和
+
 ```mysql
 SELECT AVG(salary), MAX(salary),MIN(salary), SUM(salary)
 FROM   employees
@@ -3310,4 +3314,78 @@ FROM employees;
   说明：count(*)会统计值为 NULL 的行，而 count(列名)不会统计此列为 NULL 值的行。
 
 
+
+```mysql
+#聚合函数
+#1. 常见的聚合函数
+
+#1.1 AVG /SUM	:只适应于数值类型的字段（或变量）
+SELECT AVG(salary),SUM(salary)
+FROM employees;
+#如下的操作没有意义
+SELECT SUM(last_name),AVG(last_name),SUM(hire_date)
+FROM employees;
+
+#1.2 MAX /MIN	:适用于数值类型、字符串类型、日期时间类型的字段（或变量）
+SELECT MAX(salary),MIN(salary)
+FROM employees;
+
+SELECT MAX(last_name),MIN(last_name),MIN(hire_date)
+FROM employees;
+
+
+#1.3 COUNT:
+#①作用：计算指定字段在查询结构中出现的个数
+SELECT COUNT(employee_id),COUNT(salary),COUNT(2 * salary),COUNT(1),COUNT(2),COUNT(*)
+FROM employees;
++--------------------+---------------+-------------------+----------+----------+----------+
+| COUNT(employee_id) | COUNT(salary) | COUNT(2 * salary) | COUNT(1) | COUNT(2) | COUNT(*) |
++--------------------+---------------+-------------------+----------+----------+----------+
+| 	 107             |  107          | 		  107        |   107	|	107	   |	107	  | 
++--------------------+---------------+-------------------+----------+----------+----------+
+
+#如果计算表中有多少条记录，如何实现？
+#方式1：COUNT(*)
+#方式2：COUNT(1)
+#方式3：COUNT(具体字段)	:不一定对！
+
+#②注意：计算指定字段出现的个数时，是不计算NULL值的。
+SELECT COUNT(commission_pct)
+FROM employees;
+
+SELECT commission_pct
+FROM employees
+WHERE commission_pct IS NOT NULL
+
+#③ AVG = SUM / COUNT
+SELECT AVG(salary),SUM(salary)/COUNT(salary),
+AVG(commission_pct),SUM(commission_pct)/COUNT(commission_pct)
+FROM employees;
+
+#需求：查询公司中平均奖金率
+#错误的
+SELECT AVG(commission_pct)
+FROM employees;
+
+#正确的：
+SELECT SUM(commission_pct) / COUNT(IFNULL(commission_pct,0)),
+AVG(IFNULL(commission_pct,0))
+FROM employees;
+
+
+#2. GROUP BY 的使用
+
+
+
+
+#3. HAVING的使用
+
+
+
+
+#4. SQL底层执行原理
+
+
+
+```
 
