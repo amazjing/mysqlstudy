@@ -3372,6 +3372,8 @@ SELECT SUM(commission_pct) / COUNT(IFNULL(commission_pct,0)),
 AVG(IFNULL(commission_pct,0))
 FROM employees;
 
+#如何需要统计表中的记录数，使用COUNT(*)、COUNT(1)、COUNT(具体字段) 哪个效率更高呢？
+#如果使用的是MyISAM存储引擎，则三者效率相同，都是0（1）
 
 #2. GROUP BY 的使用
 
