@@ -3374,20 +3374,61 @@ FROM employees;
 
 #如何需要统计表中的记录数，使用COUNT(*)、COUNT(1)、COUNT(具体字段) 哪个效率更高呢？
 #如果使用的是MyISAM存储引擎，则三者效率相同，都是0（1）
+#如果使用的是InnoDB存储引擎，则三者效率：COUNT(*) = COUNT(1) > COUNT(字段)
+```
 
+
+
+#### 19.1.4 GROUP BY
+
+**在SELECT列表中所有未包含在组函数中的列都应该包含在 GROUP BY子句中**
+
+**包含在 GROUP BY 子句中的列不必包含在SELECT 列表中**
+
+
+
+#### 19.1.5 GROUP BY中使用WITH ROLLUP
+
+使用`WITH ROLLUP`关键字之后，在所有查询出的分组记录之后增加一条记录，该记录计算查询出的所有记录的总和，即统计记录数量。
+
+> 注意：
+>
+> 当使用ROLLUP时，不能同时使用ORDER BY子句进行结果排序，即ROLLUP和ORDER BY是互相排斥的。
+
+```mysql
 #2. GROUP BY 的使用
+#需求：查询各个部门的平均工资，最高工资
+SELECT employee_id,department_id,AVG(salary),SUM(salary)
+FROM employees
+GROUP BY department_id;
 
+#需求：查询各个Job_id的平均工资
+SELECT job_id,AVG(salary)
+FROM employees
+GROUP BY job_id;
 
+#需求：查询各个department_id，job_id的平均工资
+SELECT department_id,job_id,AVG(salary)
+FROM employees
+GROUP BY department_id,job_id;
 
+#错误的！！！
+SELECT department_id,job_id,AVG(salary)
+FROM employees
+GROUP BY department_id;
+#结论1：SELECT中出现的非组函数的字段必须出现声明在GROUP BY中。反之，GROUP BY 声明的字段可以不出现在SELECT中。
+#结论2：GOURP BY 声明在FROM后面，WHERE后面，ORDER BY前面，LIMIT前面。
+#结论3：MySQL中GROUP BY使用WITH ROLLUP，当使用ROLLUP时，不能同时使用ORDER BY子句进行结果排序，即ROLLUP和ORDER BY是互相排斥的。
 
-#3. HAVING的使用
+SELECT department_id,AVG(salary)
+FROM employees
+GROUP BY department_id
+WITH ROLLUP
 
-
-
-
-#4. SQL底层执行原理
-
-
-
+#需求：查询各个部门的平均工资，按照平均工资升序排列
+SELECT department_id,AVG(salary) avg_sal
+FROM employees
+GROUP BY department_id
+ORDER BY avg_sal ASC;
 ```
 
