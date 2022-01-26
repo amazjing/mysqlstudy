@@ -3638,3 +3638,44 @@ SELECT 是先执行 FROM 这一步的。在这个阶段，如果是多张表联�
 
 同时因为 SQL 是一门类似英语的结构化查询语言，所以我们在写 SELECT 语句的时候，还要注意相应的关键字顺序，**所谓底层运行的原理，就是我们刚才讲到的执行顺序。**
 
+
+
+## 21. 聚合函数练习题
+
+```mysql
+#1.where子句可否使用组函数进行过滤?
+
+#2.查询公司员工工资的最大值，最小值，平均值，总和
+SELECT last_name,MAX(salary),MIN(salary),AVG(salary),SUM(salary)
+FROM employees;
+
+#3.查询各job_id的员工工资的最大值，最小值，平均值，总和
+SELECT job_id,MAX(salary),MIN(salary),AVG(salary),SUM(salary)
+FROM employees
+GROUP BY job_id;
+
+#4.选择具有各个job_id的员工人数
+SELECT job_id,COUNT(*) 
+FROM employees
+GROUP BY job_id;
+
+# 5.查询员工最高工资和最低工资的差距（DIFFERENCE）
+SELECT last_name,MAX(salary) - MIN(salary)
+FROM employees;
+
+# 6.查询各个管理者手下员工的最低工资，其中最低工资不能低于6000，没有管理者的员工不计算在内
+SELECT last_name,manager_id,MIN(salary)
+FROM employees
+GROUP BY manager_id
+HAVING MIN(salary)>6000 AND manager_id IS NOT NULL;
+
+# 7.查询所有部门的名字，location_id，员工数量和平均工资，并按平均工资降序
+SELECT e.department_id,d.location_id,COUNT(*),AVG(salary)
+FROM employees e
+JOIN departments d
+ON d.department_id = e.department_id;
+
+# 8.查询每个工种、每个部门的部门名、工种名和最低工资
+
+```
+
