@@ -3644,6 +3644,7 @@ SELECT 是先执行 FROM 这一步的。在这个阶段，如果是多张表联�
 
 ```mysql
 #1.where子句可否使用组函数进行过滤?
+#不可以。HAVING可以使用组函数。
 
 #2.查询公司员工工资的最大值，最小值，平均值，总和
 SELECT last_name,MAX(salary),MIN(salary),AVG(salary),SUM(salary)
@@ -3660,22 +3661,29 @@ FROM employees
 GROUP BY job_id;
 
 # 5.查询员工最高工资和最低工资的差距（DIFFERENCE）
-SELECT last_name,MAX(salary) - MIN(salary)
+SELECT last_name,MAX(salary) - MIN(salary) "DIFFERENCE"
 FROM employees;
 
 # 6.查询各个管理者手下员工的最低工资，其中最低工资不能低于6000，没有管理者的员工不计算在内
 SELECT last_name,manager_id,MIN(salary)
 FROM employees
+WHERE manager_id IS NOT NULL
 GROUP BY manager_id
-HAVING MIN(salary)>6000 AND manager_id IS NOT NULL;
+HAVING MIN(salary) >= 6000;
 
 # 7.查询所有部门的名字，location_id，员工数量和平均工资，并按平均工资降序
-SELECT e.department_id,d.location_id,COUNT(*),AVG(salary)
-FROM employees e
-JOIN departments d
-ON d.department_id = e.department_id;
+SELECT d.department_name,d.location_id,COUNT(employee_id),AVG(salary) salary
+FROM departments d
+LEFT JOIN employees e
+ON d.department_id = e.department_id
+GROUP BY d.department_name,d.department_id
+ORDER BY salary desc;
 
 # 8.查询每个工种、每个部门的部门名、工种名和最低工资
-
+SELECT d.department_name,e.job_id,MIN(salary)
+FROM departments d
+LEFT JOIN employees e
+ON d.department_id = e.department_id
+GROUP BY department_name,job_id;
 ```
 
