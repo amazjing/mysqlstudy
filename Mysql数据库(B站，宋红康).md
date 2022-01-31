@@ -3790,6 +3790,42 @@ WHERE salary > (
 
 #### 22.2.2 代码示例
 
+
+
+```mysql
+#子查询的编写技巧（或步骤）：①从里往外写	②从外往里写
+
+
+#单行子查询
+#单行子查询操作符：	=	!=	>	>=	<	<=
+#题目：查询工资大于149号员工工资的员工的信息
+
+
+SELECT employee_id,last_name,salary FROM employees 
+WHERE salary > (
+								SELECT salary 
+								FROM employees 
+								WHERE employee_id = 149
+);
+
+#题目：返回job_id与141号员工相同，salary比143号员工多的员工姓名，job_id和工资
+
+SELECT employee_id,last_name,job_id,salary
+FROM employees
+WHERE job_id = (
+									SELECT job_id 
+									FROM employees 
+									WHERE employee_id = 141
+								) 
+AND salary > (
+									SELECT salary
+									FROM employees
+									WHERE employee_id = 143
+							)
+```
+
+
+
 **题目：查询工资大于149号员工工资的员工的信息**
 
 ![](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20210914232952626.png)
