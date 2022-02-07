@@ -3822,6 +3822,65 @@ AND salary > (
 									FROM employees
 									WHERE employee_id = 143
 							)
+#题目：返回公司工资最少的员工的last_name,job_id和salary
+SELECT last_name,job_id,salary
+FROM employees
+WHERE salary = (	
+								SELECT MIN(salary) 
+								FROM employees
+								);
+
+#题目：查询与141号员工的manager_id和department_id相同的其他员工的employee_id，manager_id，department_id
+#方式一：
+SELECT employee_id,manager_id,department_id
+FROM employees
+WHERE manager_id = (
+SELECT manager_id FROM employees 
+WHERE employee_id = "141"
+) 
+AND department_id = (
+SELECT department_id FROM employees
+WHERE employee_id = "141"
+)
+AND	employee_id != "141";
+
+#方式二：了解（成对查询）
+SELECT employee_id,manager_id,department_id
+FROM employees
+WHERE (manager_id,department_id) = (
+																		SELECT manager_id,department_id 
+																		FROM employees 
+																		WHERE employee_id = 141
+																		);
+AND	employee_id <> "141";
+
+
+#题目：查询与141号或174号员工的manager_id和department_id相同的其他员工的employee_id，manager_id，department_id
+#第一次自己的做法：
+#出现错误信息：SELECT department_id FROM employees WHERE employee_id = "141" OR employee_id ="174") > 1242 - Subquery returns more than 1 row，这里的错误是属于非法使用子查询
+SELECT employee_id,manager_id,department_id
+FROM employees
+WHERE manager_id = (
+SELECT manager_id FROM employees 
+WHERE employee_id = "141" OR employee_id ="174"
+) 
+OR department_id = (
+SELECT department_id FROM employees
+WHERE employee_id = "141" OR employee_id ="174"
+)
+#正确的sql写法：
+SELECT employee_id,manager_id,department_id
+FROM employees
+WHERE manager_id IN (
+SELECT manager_id FROM employees 
+WHERE employee_id IN (141,174)
+) 
+OR department_id IN (
+SELECT department_id FROM employees
+WHERE employee_id IN (141,174)
+)
+AND	employee_id NOT IN(174,141);
+
 ```
 
 
@@ -3897,13 +3956,15 @@ AND	employee_id NOT IN (141,174);
 **题目：查询最低工资大于50号部门最低工资的部门id和其最低工资**
 
 ```mysql
-SELECT   department_id, MIN(salary)
-FROM     employees
+#题目：查询最低工资大于50号部门最低工资的部门id和其最低工资
+SELECT department_id,MIN(salary)
+FROM employees
 GROUP BY department_id
-HAVING   MIN(salary) >
-                       (SELECT MIN(salary)
-                        FROM   employees
-                        WHERE  department_id = 50);
+HAVING MIN(salary) > (
+											SELECT MIN(salary) 
+											FROM employees
+											WHERE department_id = 50
+											);
 ```
 
 
