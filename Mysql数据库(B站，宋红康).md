@@ -4040,6 +4040,79 @@ WHERE  salary =
 
 #### 22.3.2 代码示例
 
+```mysql
+#多行子查询
+#多行子查询的操作符：IN	ANY	ALL	SOME(同ANY)
+
+#举例：
+#	IN:
+SELECT employee_id,last_name
+FROM employees
+WHERE salary IN (
+								SELECT MIN(salary)
+								FROM employees
+								GROUP BY department_id
+								);
+
+
+#ANY:					
+#题目：返回其它job_id中比job_id为‘IT_PROG’部门任一工资低的员工的员工号、姓名、job_id 以及salary
+SELECT employee_id,last_name,job_id,salary
+FROM employees
+WHERE job_id <> "IT_PROG"
+AND salary < ANY (
+									SELECT salary
+									FROM employees 
+									WHERE job_id ="IT_PROG"
+									);
+
+
+#题目：返回其它job_id中比job_id为‘IT_PROG’部门所有工资都低的员工的员工号、姓名、job_id以及salary
+SELECT employee_id,last_name,job_id,salary
+FROM employees
+WHERE job_id <> "IT_PROG"
+AND salary < ALL (
+									SELECT salary
+									FROM employees 
+									WHERE job_id ="IT_PROG"
+									);
+
+
+#题目：查询平均工资最低的部门id
+#Mysql中聚合函数是不能嵌套使用的。
+#错误的：
+SELECT MIN(AVG(salary))
+FROM employees
+GROUP BY department_id;
+#正确的：使用子查询将每个部门的平均工资查出来，然后得出的多条数据作为一张表，指定一个别名为'dept_avg_sal',(不指定的会报错，子查询外的FROM不知道是哪张表)，然后在子查询外,使用MIN聚合函数查询平均工资'avg_sal',得到的数据就是查询最低的平均工资为3475.555556。然后使用HAVING查询部门平均工资为3475.555556的部门id的即可得到最终数据。
+#方式1：
+SELECT department_id
+FROM employees
+GROUP BY department_id
+HAVING AVG(salary) = (
+												SELECT MIN(avg_sal)
+												FROM
+												(
+															SELECT AVG(salary) avg_sal
+															FROM employees
+															GROUP BY department_id
+															) dept_avg_sal
+												);
+#方式2：
+SELECT department_id
+FROM employees
+GROUP BY department_id
+HAVING AVG(salary) <= ALL (
+														SELECT AVG(salary) avg_sal
+														FROM employees
+														GROUP BY department_id
+														) 
+
+
+```
+
+
+
 **题目：返回其它job_id中比job_id为‘IT_PROG’部门任一工资低的员工的员工号、姓名、job_id 以及salary**
 
 ![](https://gitee.com/Amazjing/markdown-img/raw/master/img/1554992658876.png)
@@ -4086,11 +4159,22 @@ HAVING AVG(salary) <= ALL (
 #### 22.3.3 空值问题
 
 ```mysql
+#查询得到的值是NULL，无数据。产生的原因是数据中存在manager_id为NULL的值。
+#错误：
 SELECT last_name
 FROM employees
 WHERE employee_id NOT IN (
 			SELECT manager_id
 			FROM employees
+			);
+
+#正确：
+SELECT last_name
+FROM employees
+WHERE employee_id NOT IN (
+			SELECT manager_id
+			FROM employees
+			WHERE manager_id IS NOT NULL
 			);
 ```
 
