@@ -4198,6 +4198,66 @@ WHERE employee_id NOT IN (
 
 #### 22.4.2 代码示例
 
+```mysql
+#相关子查询
+
+#题目：查询员工中工资大于本公司平均工资的员工的last_name，salary和其department_id
+SELECT last_name,salary,department_id
+FROM employees
+WHERE salary > (
+									SELECT AVG(salary)
+									FROM employees
+									);
+									
+#题目：查询员工中工资大于本部门平均工资的员工的last_name，salary和其department_id
+#方式1：相关子查询：
+#第一步是先取出主查询107条结果中的一条记录，起一个别名e1
+#第二步将第一步中的一条记录送进子查询中，子查询根据主查询中的一条数据，根据department_id查询部门的平均工资。第二部是根据第一步的department_id查询每个部门的平均工资。
+#第三步将第二步得到的部门平均工资与主查询的salary对比，得到的结果就是大于部门平均工资信息。
+SELECT last_name,salary,department_id
+FROM employees e1
+WHERE salary > (
+									SELECT AVG(salary)
+									FROM employees e2
+									WHERE department_id = e1.department_id
+									);
+
+#方式2：在From中声明子查询
+SELECT e.last_name,e.salary,e.department_id
+FROM employees e,(
+									SELECT department_id,AVG(salary) avg_sal
+									FROM employees
+									GROUP BY department_id) t_dept_avg_sal
+WHERE e.department_id = t_dept_avg_sal.department_id
+AND e.salary > t_dept_avg_sal.avg_sal
+
+#题目：查询员工的id,salary,按照department_name 排序
+SELECT employee_id,salary
+FROM employees e
+ORDER BY (
+					SELECT department_name
+					FROM departments d
+					WHERE d.department_id =e.department_id
+					)
+#结论：
+#在SELECT中，除了GROUP BY 和 LIMIT之外，其他位置都可以声明子查询！
+
+/*
+SELECT...,...,...(存在聚合函数)
+FROM...(LEFT /RIGHT) JOIN...ON...多表的连接条件
+(LEFT / RIGHT)JOIN ... ON ...
+WHERE...不包含聚合函数的过滤条件
+GROUP BY...
+HAVING...包含聚合函数的过滤条件
+ORDER BY....（ASC/DESC）
+LIMIT....
+*/
+
+
+```
+
+
+
 **题目：查询员工中工资大于本部门平均工资的员工的last_name,salary和其department_id**
 
 **方式一：相关子查询**
@@ -4290,7 +4350,7 @@ WHERE employee_id IN (
 ```mysql
 SELECT department_id, department_name
 FROM departments d
-WHERE NOT EXISTS (SELECT 'X'
+WHERE NOT EXISTS (SELECT *
                   FROM   employees
                   WHERE  department_id = d.department_id);
 ```
