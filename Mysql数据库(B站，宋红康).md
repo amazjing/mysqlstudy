@@ -92,7 +92,7 @@ Mysql是关系型数据库(Relational)，Redis是非关系型数据库(key-value
 
 - 一个实体集（class）对应于数据库中的一个表（table），一个实体（instance）则对应于数据库表中的一行（row），也称为一条记录（record）。一个属性（attribute）对应于数据库表中的一列（column），也称为一个字段（field）。
 
-![image11](https://gitee.com/Amazjing/markdown-img/raw/master/img/image11.png)
+![image11](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image11.png)
 
 ```
 ORM思想 (Object Relational Mapping)体现：
@@ -127,7 +127,7 @@ ORM思想 (Object Relational Mapping)体现：
 
     
 
-![image-20211201111923](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211201111923.png)
+![image-20211201111923](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image-20211201111923.png)
 
 
 
@@ -140,7 +140,7 @@ ORM思想 (Object Relational Mapping)体现：
   - 部门表：编号、名称、简介
 - 一对多建表原则：在从表(多方)创建一个字段，字段作为外键指向主表(一方)的主键
 
-![微信截图_20211221155826](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211221155826.png)
+![微信截图_20211221155826](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/微信截图_20211221155826.png)
 
 
 
@@ -148,7 +148,7 @@ ORM思想 (Object Relational Mapping)体现：
 
 要表示多对多关系，必须创建第三个表，该表通常称为`联接表`，它将多对多关系划分为两个一对多关系。将这两个表的主键都插入到第三个表中。
 
-![image-20211201112622306](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211201112622306.png)
+![image-20211201112622306](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image-20211201112622306.png)
 
 - **举例1：学生-课程**
 
@@ -173,18 +173,18 @@ ORM思想 (Object Relational Mapping)体现：
   - `订单表`：“订单”表中的每条记录表示一个订单。
   - `订单明细表`：每个产品可以与“订单”表中的多条记录对应，即出现在多个订单中。一个订单可以与“产品”表中的多条记录对应，即包含多个产品。
 
-![微信截图_20211221155016](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211221155016.png)
+![_20211221155016](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/_20211221155016.png)
 
 - **举例3：用户-角色**
 - 多对多关系建表原则：需要创建第三张表，中间表中至少两个字段，这两个字段分别作为外键指向各自一方的主键。
 
-![image-202112011127025](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-202112011127025.png)
+![image-202112011127025](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image-202112011127025.png)
 
 
 
 #### 2.2.4  自我引用(Self reference)
 
-![image-20211201112745848](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211201112745848.png)
+![image-20211201112745848](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image-20211201112745848.png)
 
 
 
@@ -515,7 +515,7 @@ SELECT * FROM departments;
   WHERE  department_id = 90 ;
   ```
 
-  ![image-20211206142344088](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211206142344088.png)
+  ![image-20211206142344088](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image-20211206142344088.png)
 
   
 
@@ -529,7 +529,7 @@ WHERE department_id = 90;
 SELECT * FROM employees WHERE last_name = 'King';
 ```
 
-![image-202112061431390](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-202112061431390.png)
+![image-202112061431390](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image-202112061431390.png)
 
 
 
@@ -541,7 +541,7 @@ SELECT * FROM employees WHERE last_name = 'King';
 
 算术运算符主要用于数学运算，其可以连接运算符前后的两个数值或表达式，对数值或表达式进行加（+）、减（-）、乘（*）、除（/）和取模（%）运算。
 
-![image-202112061638417](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-202112061638417.png)
+![image-202112061638417](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image-202112061638417.png)
 
 
 
@@ -589,15 +589,15 @@ WHERE employee_id % 2 = 0;
 
 
 
-![image-202112061705224](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-202112061705224.png)
+![image-202112061705224](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image-202112061705224.png)
 
-![image-202112061704530](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-202112061704530.png)
+![image-202112061704530](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image-202112061704530.png)
 
 取模运算：%  mod
 
 取模运算的结果与被取模数有关。被取模数是正数，结果为正数，取模数是负数，结果为负数。
 
-![微信截图_20211221155120](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211221155120.png)
+![_20211221155120](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/_20211221155120.png)
 
 
 
@@ -645,7 +645,7 @@ WHERE employee_id MOD 2 = 0;
 
 比较运算符经常被用来作为SELECT查询语句的条件来使用，返回符合条件的结果记录。
 
-![微信截图_20211221155225](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211221155225.png)
+![微信截图_20211221155225](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/微信截图_20211221155225.png)
 
 
 
@@ -689,7 +689,7 @@ FROM DUAL;
 
 ```
 
-![微信截图_20211221155303](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211221155303.png)
+![_20211221155303](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/_20211221155303.png)
 
 
 
@@ -699,7 +699,7 @@ FROM DUAL;
 
 安全等于运算符（<=>）与等于运算符（=）的作用是相似的，`唯一的区别`是‘<=>’可以用来对NULL进行判断。在两个操作数均为NULL时，其返回值为1，而不为NULL；当一个操作数为NULL时，其返回值为0，而不为NULL。
 
-![image-20211207134702919](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211207134702919.png)
+![image-20211207134702919](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image-20211207134702919.png)
 
 ```mysql
 #练习：查询表中commission_pct为NULL的数据有哪些
@@ -722,7 +722,7 @@ WHERE commission_pct IS NULL;
 
 此外，还有非符号类型的运算符：
 
-![image-20211207083317340](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211207083317340.png)
+![image-20211207083317340](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image-20211207083317340.png)
 
 
 
@@ -996,7 +996,7 @@ mysql> SELECT 'atguigu' REGEXP 'gu.gu', 'atguigu' REGEXP '[ab]';
 
 MySQL中支持4种逻辑运算符如下：
 
-![image-20211208150626175](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211208150626175.png)
+![image-20211208150626175](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image-20211208150626175.png)
 
 
 
@@ -1080,7 +1080,7 @@ WHERE department_id = 50 XOR salary > 6000;
 
 MySQL支持的位运算符如下：
 
-![image-20211209105702945](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211209105702945.png)
+![image-20211209105702945](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image-20211209105702945.png)
 
 
 
@@ -1142,7 +1142,7 @@ SELECT 12 & 5, 12 | 5,12 ^ 5 FROM DUAL;
 
 
 
-![image-20211209110026105](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211209110026105.png)
+![image-20211209110026105](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image-20211209110026105.png)
 
 
 
@@ -1161,7 +1161,7 @@ SELECT 10 & ~1;
 
 
 
-![](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211209111653462.png)
+![image-20211209111653462](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image-20211209111653462.png)
 
 由于按位取反（~）运算符的优先级高于按位与（&）运算符的优先级，所以10 & ~1，首先，对数字1进行按位取反操作，结果除了最低位为0，其他位都为1，然后与10进行按位与操作，结果为10。
 
