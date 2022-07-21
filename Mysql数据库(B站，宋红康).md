@@ -1289,7 +1289,7 @@ WHERE manager_id IN (100,101,110);
 
 
 
-![微信截图_20211221155353](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211221155353.png)
+![微信截图_20211221155353](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/微信截图_20211221155353.png)
 
 数字编号越大，优先级越高，优先级高的运算符先进行计算。可以看到，赋值运算符的优先级最低，使用“()”括起来的表达式的优先级最高。
 
@@ -1299,7 +1299,7 @@ WHERE manager_id IN (100,101,110);
 
 MySQL中使用REGEXP关键字指定正则表达式的字符匹配模式。下表列出了REGEXP操作符中常用字符匹配列表。
 
-![微信截图_20211221155428](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211221155428.png)
+![20211221155428](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/20211221155428.png)
 
 
 
@@ -1656,7 +1656,7 @@ AND d.location_id = l.location_id;
 
 笛卡尔乘积是一个数学运算。假设我有两个集合 X 和 Y，那么 X 和 Y 的笛卡尔积就是 X 和 Y 的所有可能组合，也就是第一个对象来自于 X，第二个对象来自于 Y 的所有可能。组合的个数即为两个集合中元素个数的乘积数。
 
-![image-20211213110238932](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211213110238932.png)
+![image-20211213110238932](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image-20211213110238932.png)
 
 ### 11.3 案例分析与问题解决
 
@@ -1803,13 +1803,13 @@ SELECT column,... FROM table2
 
 **UNION操作符**
 
-![image-20211221104813948](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211221104813948.png)
+![image-20211221104813948](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image-20211221104813948.png)
 
 UNION 操作符返回两个查询的结果集的并集，去除重复记录。
 
 **UNION ALL操作符**
 
-![image-20211221104834602](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211221104834602.png)
+![image-20211221104834602](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image-20211221104834602.png)
 
 UNION ALL操作符返回两个查询的结果集的并集。对于两个结果集的重复部分，不去重。
 
@@ -1839,13 +1839,13 @@ SELECT id,tname FROM t_usmale WHERE tGender='male';
 
 ### 12.6 7种SQL JOINS的实现
 
-![微信截图_20211221155518](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211221155518.png)
+![微信截图_20211221155518](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/微信截图_20211221155518.png)
 
 
 
 #### 12.6.1 代码实现
 
-![image-20211221110402114](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20211221110402114.png)
+![image-20211221110402114](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image-20211221110402114.png)
 
 A表：员工表employees；B表：departments部门表
 
@@ -2169,7 +2169,7 @@ MySQL提供的内置函数从`实现的功能角度`可以分为数值函数、�
 
 **两种SQL函数**
 
-![](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211227142300.png)
+![_20211227142300](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/_20211227142300.png)
 
 
 
@@ -2211,21 +2211,21 @@ MySQL提供的内置函数从`实现的功能角度`可以分为数值函数、�
 SELECT ABS(-123),ABS(32),SIGN(-23),SIGN(43),PI(),CEIL(32.32),CEILING(-43.23),FLOOR(32.32),FLOOR(-43.23),MOD(12,5)FROM DUAL;
 ```
 
-![](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211227145825.png)
+![20211227145825](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/20211227145825.png)
 
 ```mysql
 SELECT RAND(),RAND(),RAND(10),RAND(10),RAND(-1),RAND(-1)
 FROM DUAL;
 ```
 
-![](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211227145945.png)
+![20211227145945](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/20211227145945.png)
 
 ```mysql
 SELECT ROUND(12.33),ROUND(12.343,2),ROUND(12.324,-1),TRUNCATE(12.66,1),TRUNCATE(12.66,-1)
 FROM DUAL;
 ```
 
-![](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211227150100.png)
+![20211227150100](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/20211227150100.png)
 
 
 
@@ -2537,7 +2537,7 @@ mysql> SELECT SEC_TO_TIME(78774);
 
 **上述函数中type的取值：**
 
-![](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211227154310.png)
+![20211227154310](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/20211227154310.png)
 
 举例：
 
@@ -2550,7 +2550,7 @@ DATE_ADD(NOW(), INTERVAL '1_1' YEAR_MONTH) AS col6 #需要单引号
 FROM DUAL;
 ```
 
-![image-20220105154614077](https://gitee.com/Amazjing/markdown-img/raw/master/img/image-20220105154614077.png)
+![image-20220105154614077](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/image-20220105154614077.png)
 
 
 
