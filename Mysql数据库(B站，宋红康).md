@@ -2383,7 +2383,7 @@ SELECT CURDATE(),CURTIME(),NOW(),SYSDATE()+0,UTC_DATE(),UTC_DATE()+0,UTC_TIME(),
 FROM DUAL;
 ```
 
-![](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211227153603.png)
+![20211227153603](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/20211227153603.png)
 
 
 
@@ -2466,7 +2466,7 @@ HOUR(CURTIME()),MINUTE(NOW()),SECOND(SYSDATE())
 FROM DUAL;
 ```
 
-![](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211227153851.png)
+![20211227153851](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/20211227153851.png)
 
 ```mysql
 SELECT MONTHNAME('2021-10-26'),DAYNAME('2021-10-26'),WEEKDAY('2021-10-26'),
@@ -2475,7 +2475,7 @@ DAYOFMONTH(NOW()),DAYOFWEEK(NOW())
 FROM DUAL;
 ```
 
-![](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211227153934.png)
+![20211227153934](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/20211227153934.png)
 
 
 
@@ -2487,7 +2487,7 @@ FROM DUAL;
 
 **EXTRACT(type FROM date)函数中type的取值与含义：**
 
-![](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20211227154053.png)
+![20211227154053](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/20211227154053.png)
 
 ```mysql
 SELECT EXTRACT(MINUTE FROM NOW()),EXTRACT( WEEK FROM NOW()),
@@ -2717,7 +2717,7 @@ SELECT COUNT(*) as num FROM new_user WHERE TO_DAYS(NOW())-TO_DAYS(regist_time)<=
 
 GET_FORMAT函数中date_type和format_type参数取值如下：
 
-![](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20220105163727.png)
+![20220105163727](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/20220105163727.png)
 
 举例：
 
@@ -2735,9 +2735,9 @@ FROM DUAL
 
 
 
-![](https://gitee.com/Amazjing/markdown-img/raw/master/img/微信截图_20220106200858.png)
+![20220106200858](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/20220106200858.png)
 
-![](https://gitee.com/Amazjing/markdown-img/raw/master/img/微信截图_20220106201607.png)
+![20220106201607](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/20220106201607.png)
 
 
 
@@ -2964,7 +2964,7 @@ SELECT last_name, job_id, salary,
 FROM   employees;
 ```
 
-![](https://gitee.com/Amazjing/markdown-img/raw/master/img/1554980865631.png)
+![1554980865631](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/1554980865631.png)
 
 练习：查询部门号为 10,20, 30 的员工信息, 若部门号为 10, 则打印其工资的 1.1 倍, 20 号部门, 则打印其工资的 1.2 倍, 30 号部门打印其工资的 1.3 倍数。
 
@@ -3234,7 +3234,7 @@ WHERE DATEDIFF(CURDATE(),hire_date) >= 10000;
 
   聚合函数作用于一组数据，并对一组数据返回一个值。
 
-  ![](https://gitee.com/Amazjing/markdown-img/raw/master/img/微信截图_20220113191821.png)
+  ![20220113191821](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/20220113191821.png)
 
 
 
@@ -3248,7 +3248,7 @@ WHERE DATEDIFF(CURDATE(),hire_date) >= 10000;
 
 - 聚合函数语法
 
-  ![](https://gitee.com/Amazjing/markdown-img/raw/master/img/微信截图_20220113192002.png)
+  ![20220113192002](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/20220113192002.png)
 
 
 
@@ -3445,7 +3445,7 @@ ORDER BY avg_sal ASC;
 3. 满足HAVING 子句中条件的分组将被显示。
 4. HAVING 不能单独使用，必须要跟 GROUP BY 一起使用。
 
-![](https://gitee.com/Amazjing/markdown-img/raw/master/img/1554981808091.png)
+![1554981808091](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/1554981808091.png)
 
 
 
@@ -3571,9 +3571,9 @@ SELECT ... FROM ... WHERE ... GROUP BY ... HAVING ... ORDER BY ... LIMIT...
 FROM -> ON -> (LEFT/RIGHT JOIN) -> WHERE -> GROUP BY -> HAVING -> SELECT -> DISTINCT -> ORDER BY -> LIMIT
 ```
 
-![](https://gitee.com/Amazjing/markdown-img/raw/master/img/1566872301088.png)
+![1566872301088](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/1566872301088.png)
 
-![](https://gitee.com/Amazjing/markdown-img/raw/master/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220125163659.png)
+![20220125163659](http://typora-imagelist.oss-cn-qingdao.aliyuncs.com/20220125163659.png)
 
 ```mysql
 /*
